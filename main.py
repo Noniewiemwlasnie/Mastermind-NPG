@@ -1,12 +1,13 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
+from PySide6.QtWidgets import (QApplication,QWidget, QVBoxLayout, QLabel, QPushButton, QLineEdit, QMessageBox, QComboBox)
+import sys
+import random
+import csv
+import os
+import json
 
 def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+    print(f'Hi, {name}')
 
 
 # Press the green button in the gutter to run the script.
