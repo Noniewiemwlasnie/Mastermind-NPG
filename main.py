@@ -41,7 +41,7 @@ import json
 # - Jeśli kodujący popełni błąd w ocenie, gra jest powtarzana, a odgadujący dostaje +3 punkty.
 
 
-#Losowanie liczb
+#Losowanie koloru
 class Kolor:
     def __init__(self):
         self.liczba = random.randint(1, 6)
