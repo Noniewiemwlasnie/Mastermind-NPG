@@ -64,7 +64,7 @@ class MyApp(QWidget):
 
         # Label z wynikiem
         self.result_label = QLabel("", self)
-        self.result_label.setGeometry(30, 250, 500, 60)
+        self.result_label.setGeometry(20, 250, 500, 30)
         self.result_label.setAlignment(Qt.AlignCenter)
         self.result_label.setStyleSheet("font-size: 24px;")
 
@@ -81,7 +81,7 @@ class MyApp(QWidget):
                 czarna += 1
             elif element == "biała":
                 biała += 1
-        wynik_ikony += "Czarne: "+str(czarna)+"\nBiałe: "+str(biała)
+        wynik_ikony += "Czarne: "+str(czarna)+"    Białe: "+str(biała)
         self.result_label.setText(wynik_ikony)
         if wynik.count("czarna") == 4:
             self.result_label.setText("🎉 Zgadłeś! 🎉")
