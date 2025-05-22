@@ -38,4 +38,4 @@ def sprawdz_kod(propozycja, tajny_kod):
             wynik[i] = 'biała'
             tajny_kod_tmp[idx] = None
 
-    return wynik
+    return wynik #[None,None,biała,czarna]

@@ -64,7 +64,7 @@ class MyApp(QWidget):
 
         # Label z wynikiem
         self.result_label = QLabel("", self)
-        self.result_label.setGeometry(30, 250, 500, 50)
+        self.result_label.setGeometry(30, 250, 500, 60)
         self.result_label.setAlignment(Qt.AlignCenter)
         self.result_label.setStyleSheet("font-size: 24px;")
 
@@ -74,14 +74,14 @@ class MyApp(QWidget):
 
         # Tworzenie wyniku w stylu Wordle
         wynik_ikony = ""
-        for w in wynik:
-            if w == "czarna":
-                wynik_ikony += "🟩"
-            elif w == "biała":
-                wynik_ikony += "🟨"
-            else:
-                wynik_ikony += "⬜"
-
+        czarna = 0
+        biała = 0
+        for element in wynik:
+            if element == "czarna":
+                czarna += 1
+            elif element == "biała":
+                biała += 1
+        wynik_ikony += "Czarne: "+str(czarna)+"\nBiałe: "+str(biała)
         self.result_label.setText(wynik_ikony)
         if wynik.count("czarna") == 4:
             self.result_label.setText("🎉 Zgadłeś! 🎉")
