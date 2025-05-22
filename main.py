@@ -89,8 +89,8 @@ class ColorBox(QLineEdit):
 class MyApp(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Wordle z kolorami")
-        self.setGeometry(200, 200, 600, 400)
+        self.setWindowTitle("Gra mastermind")
+        self.setGeometry(200, 200, 600, 400)#do poprawy
 
         # Losowanie tajnego kodu
         self.secret_code = [Kolor().get_liczba() for _ in range(4)]
