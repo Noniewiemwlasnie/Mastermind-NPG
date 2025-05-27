@@ -4,7 +4,7 @@
 from setuptools import setup
 
 setup(
-    name="Mastermind",
+    name="Need to install",
     install_requires=[
         "PyQt6",
         "PySide6",
