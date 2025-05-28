@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget, QSpinBox
+from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget
 from PySide6.QtGui import Qt
 from losowanie_kolorów import Kolor, sprawdz_kod
 from menu import OptionsDialog
@@ -33,7 +33,7 @@ class MyApp(QWidget):
     def show_options_dialog(self):
         dialog = OptionsDialog()
         if dialog.exec() == QDialog.Accepted:
-            # Inicjalizuj z domyślnymi wartościami
+            # Aktualizujemy wartości
             self.ilość_boxów = dialog.ilość_boxów
             self.max_attempts = dialog.max_attempts
             self.reset_game()
