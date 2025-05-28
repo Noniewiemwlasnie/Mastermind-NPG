@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QSizePolicy, QSpacerItem, QLabel, QDialog, QPushButton, QLineEdit, QScrollArea, QVBoxLayout, QWidget, QMessageBox
+from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget
 from PySide6.QtGui import Qt
 from kolor import Kolor, sprawdz_kod
 from menu import OptionsDialog
