@@ -53,7 +53,7 @@ class MyApp(QWidget):
         self.current_attempt = 0
 
         # Losowanie tajnego kodu
-        ilość_boxów = 4
+        ilość_boxów = 5 # zmiana tego dodaje boxy z pełną implementacją
         self.secret_code = [Kolor().get_liczba() for _ in range(ilość_boxów)]
         print(f"(DEBUG) Sekret: {self.secret_code}")  # Dla testów
 
@@ -127,9 +127,9 @@ class MyApp(QWidget):
             entry.deleteLater()
         self.history_entries.clear()
 
-    def sprawdz(self):
+    def sprawdz(self,ilość_boxów):
         propozycja = [box.get_value() for box in self.boxes]
-        wynik = sprawdz_kod(propozycja, self.secret_code)
+        wynik = sprawdz_kod(propozycja, self.secret_code, ilość_boxów)
 
         # Obliczanie wyniku
         czarna = wynik.count("czarna")
