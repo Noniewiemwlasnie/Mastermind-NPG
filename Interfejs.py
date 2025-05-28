@@ -16,7 +16,7 @@ class OptionsDialog(QDialog):
         poziom2 = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
         poziom3 = msg_box.addButton("Poziom trudny", QMessageBox.AcceptRole)
 
-        n: int = 1
+        n=1
         msg_box.exec()
         #po wyborze poziomu zmienia się liczba okienek z kolorami do zgadnięcia - zmienna n
         
@@ -158,7 +158,7 @@ class MyApp(QWidget):
 
         # Kolorowe boxy - tu zamiast liczby dałem zmienną n
         self.boxes = []
-        for i in range(n.shared_value):
+        for i in range(4):
             box = ColorBox(50 + i * 120, 50, self)
             self.boxes.append(box)
 
