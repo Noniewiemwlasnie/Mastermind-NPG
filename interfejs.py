@@ -38,7 +38,7 @@ class MyApp(QWidget):
             self.max_attempts = dialog.max_attempts
             self.reset_game()
 
-    #Główna część "Mastermind"
+    #Główna część "Mastermind" - zwiększyłem okno, bo na poziomie trudnym brakowało miejsca
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gra mastermind")
@@ -61,12 +61,16 @@ class MyApp(QWidget):
 
         # Przycisk zatwierdz
         self.submit_button = QPushButton("Zatwierdz", self)
-        self.submit_button.move(240, 180)
+        self.submit_button.setFixedSize(180, 60)
+        wspolrzedna_x = (self.width() - self.submit_button.width()) // 1.5
+        wspolrzedna_y = 200
+        self.submit_button.move(wspolrzedna_x, wspolrzedna_y)
         self.submit_button.clicked.connect(self.sprawdz)
 
         # Przycisk menu
         self.menu_button = QPushButton("Menu", self)
-        self.menu_button.move(470, 10)
+        self.submit_button.setFixedSize(120, 40)
+        self.menu_button.move(self.width() - 140, 20)
         self.menu_button.clicked.connect(self.show_options_dialog)
 
         #licznik prób
