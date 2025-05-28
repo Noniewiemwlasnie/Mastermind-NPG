@@ -42,7 +42,7 @@ class MyApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gra mastermind")
-        self.setGeometry(100, 100, 600, 800)
+        self.setGeometry(100, 100, 800, 800)
 
         # Inicjalizujemy puste listy
         self.boxes = []
