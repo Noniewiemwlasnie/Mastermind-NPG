@@ -1,9 +1,9 @@
-from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QSpinBox, QScrollArea, QVBoxLayout, QWidget
 from PySide6.QtGui import Qt
 from losowanie_kolorów import Kolor, sprawdz_kod
 from menu import OptionsDialog
 from boxy_kolorowe import ColorBox
-    
+
 #dodana opcja wyboru trudności połączona z ilością boxów
 class OptionsDialog(QDialog):
     def __init__(self, parent=None):
