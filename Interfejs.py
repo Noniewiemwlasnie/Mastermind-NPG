@@ -1,110 +1,8 @@
 from PySide6.QtWidgets import QSizePolicy, QSpacerItem, QLabel, QDialog, QPushButton, QLineEdit, QScrollArea, QVBoxLayout, QWidget, QMessageBox
 from PySide6.QtGui import Qt
 from Kolor import Kolor, sprawdz_kod
-
-# Menu
-class OptionsDialog(QDialog):
-
-    # wybór trudności - łatwy, średni, trudny
-    def wybierz_trudnosc(self):
-        msg_box = QMessageBox(self)
-        msg_box.setWindowTitle("Wybierz poziom trudności gry")
-        msg_box.setText("Proszę wybrać poziom trudności gry:")
-
-        # poziomy
-        poziom_łatwy = msg_box.addButton("Poziom łatwy", QMessageBox.AcceptRole)
-        poziom_trudny = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
-        poziom_trudny = msg_box.addButton("Poziom trudny", QMessageBox.AcceptRole)
-
-        msg_box.exec()
-        #po wyborze poziomu zmienia się liczba okienek z kolorami do zgadnięcia - zmienna n
-        
-        if msg_box.clickedButton() == poziom_łatwy:
-            self.max_attempts = 12
-        elif msg_box.clickedButton() == poziom_trudny:
-            self.max_attempts = 10
-        elif msg_box.clickedButton() == poziom_trudny:
-            self.max_attempts = 8
-
-        self.accept()
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle("Menu")
-        self.setFixedSize(200, 150)
-
-        layout = QVBoxLayout()
-        layout.setContentsMargins(10, 10, 10, 10)  # Marginesy
-
-        # Etykieta w lewym górnym rogu
-        label = QLabel("Wybierz opcję:")
-        layout.addWidget(label, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-
-        # Przycisk opcje
-        self.opcje_button = QPushButton("Ustawienia")
-        layout.addWidget(self.opcje_button)
-
-        # Przycisk statystyki
-        self.statystyki_button = QPushButton("Statystyki")
-        self.statystyki_button.clicked.connect(self.pokaz_statystyki)
-        layout.addWidget(self.statystyki_button)
-
-        # Przycisk poziom trudności
-        self.poziom_trud_button = QPushButton("Poziom trudności")
-        layout.addWidget(self.poziom_trud_button)
-        self.poziom_trud_button.clicked.connect(self.wybierz_trudnosc)
-
-        # Spacer aby przyciski nie rozciągały się na całą wysokość  
-        spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-        layout.addItem(spacer)
-
-        self.setLayout(layout)
-
-    #pokazuje staty
-    def pokaz_statystyki(self):
-        msg = QMessageBox(self)
-        msg.setWindowTitle("Statystyki gry")
-        msg.setText(
-            f"Wygrane: {self.parent().wygrane}\nPrzegrane: {self.parent().przegrane}"
-        )
-        msg.exec()
-# Box kolorowy
-class ColorBox(QLineEdit):
-    COLORS = {
-        1: ("Czerwony", "#8B0000"),
-        2: ("Niebieski", "#00008B"),
-        3: ("Zielony", "#006400"),
-        4: ("Żółty", "#CCCC00"),
-        5: ("Fioletowy", "#4B0082"),
-        6: ("Pomarańczowy", "#CC5500")
-    }
-
-    def __init__(self, x, y, parent=None):
-        super().__init__("", parent)
-        self.setFixedSize(100, 100)
-        self.move(x, y)
-        self.setReadOnly(True)
-        self.setAlignment(Qt.AlignCenter)
-        self.color_index = 1
-        self.update_color()
-
-    def mousePressEvent(self, event):
-        self.color_index = self.color_index + 1 if self.color_index < 6 else 1
-        self.update_color()
-
-    def update_color(self):
-        name, color = self.COLORS[self.color_index]
-        self.setText(name)
-        self.setStyleSheet(f"""
-            background-color: {color};
-            color: white;
-            font-weight: bold;
-            border: 2px solid black;
-            border-radius: 8px;
-        """)
-
-    def get_value(self):
-        return self.color_index
+from menu import OptionsDialog
+from boxy_kolorowe import ColorBox
 
 # Główne okno
 class MyApp(QWidget):
@@ -155,12 +53,13 @@ class MyApp(QWidget):
         self.current_attempt = 0
 
         # Losowanie tajnego kodu
-        self.secret_code = [Kolor().get_liczba() for _ in range(4)]
+        ilość_boxów = 4
+        self.secret_code = [Kolor().get_liczba() for _ in range(ilość_boxów)]
         print(f"(DEBUG) Sekret: {self.secret_code}")  # Dla testów
 
         # Kolorowe boxy - tu zamiast liczby dałem zmienną n
         self.boxes = []
-        for i in range(4):#<- tutaj można zmienić liczbę boxów ale trzeba pamiętać że kod generuje się tylko dla 4
+        for i in range(ilość_boxów):#<- tutaj można zmienić liczbę boxów ale trzeba pamiętać że kod generuje się tylko dla 4
             box = ColorBox(50 + i * 120, 50, self)
             self.boxes.append(box)
 

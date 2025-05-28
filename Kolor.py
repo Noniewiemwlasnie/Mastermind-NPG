@@ -19,20 +19,20 @@ class Kolor:
     def get_liczba(self):
         return self.liczba
 
-def sprawdz_kod(propozycja, tajny_kod):
-    wynik = [None] * 4
+def sprawdz_kod(propozycja, tajny_kod, ilość_boxów):
+    wynik = [None] * ilość_boxów
     tajny_kod_tmp = tajny_kod.copy()
     propozycja_tmp = propozycja.copy()
 
     # 1. Szukamy trafień idealnych ("czarna")
-    for i in range(4):
+    for i in range(ilość_boxów):
         if propozycja[i] == tajny_kod[i]:
             wynik[i] = 'czarna'
             tajny_kod_tmp[i] = None
             propozycja_tmp[i] = None
 
     # 2. Szukamy trafień złą pozycją ("biała")
-    for i in range(4):
+    for i in range(ilość_boxów):
         if propozycja_tmp[i] is not None and propozycja_tmp[i] in tajny_kod_tmp:
             idx = tajny_kod_tmp.index(propozycja_tmp[i])
             wynik[i] = 'biała'
