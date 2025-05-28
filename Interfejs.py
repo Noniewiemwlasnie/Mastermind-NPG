@@ -29,7 +29,7 @@ class OptionsDialog(QDialog):
         layout.addWidget(self.poziom_trud_button)
         self.button.clicked.connect(self.wybierz_trudnosc)
 
-        #wybór trudności - łatwy, średni, trudny
+        #wybór trudności - łatwy, średni, trudny (pracuję nad tym)
         def wybierz_trudnosc(self):
             msg_box = QMessageBox(self)
             msg_box.setWindowTitle("Wybierz poziom trudności gry")
