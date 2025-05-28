@@ -19,11 +19,12 @@ class OptionsDialog(QDialog):
         msg_box.exec()
 
         if msg_box.clickedButton() == poziom1:
-            print("Grasz na poziomie łatwym.")#tu zamiast print np. zmiana zmiennej czy coś
-        if msg_box.clickedButton() == poziom2:
-            print("Grasz na poziomie średnim.")
-        if msg_box.clickedButton() == poziom3:
-            print("Grasz na poziomie trudnym.")
+            self.selected_difficulty = 12
+        elif msg_box.clickedButton() == poziom2:
+            self.selected_difficulty = 10
+        elif msg_box.clickedButton() == poziom3:
+            self.selected_difficulty = 8
+        self.accept()
 
     def __init__(self):
         super().__init__()
@@ -96,16 +97,43 @@ class ColorBox(QLineEdit):
 
 # Główne okno
 class MyApp(QWidget):
+    #wybieranie poziomy trudnosci na starcie
+    def wybierz_trudnosc_na_start(self):
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle("Wybierz poziom trudności")
+        msg_box.setText("Proszę wybrać poziom trudności gry:")
+
+        poziom1 = msg_box.addButton("Łatwy (12 prób)", QMessageBox.AcceptRole)
+        poziom2 = msg_box.addButton("Średni (10 prób)", QMessageBox.AcceptRole)
+        poziom3 = msg_box.addButton("Trudny (8 prób)", QMessageBox.AcceptRole)
+
+        msg_box.exec()
+
+        if msg_box.clickedButton() == poziom1:
+            return 12
+        elif msg_box.clickedButton() == poziom2:
+            return 10
+        elif msg_box.clickedButton() == poziom3:
+            return 8
+        else:
+            return 10
+
     #Do menu
     def show_options_dialog(self):
         dialog = OptionsDialog()
-        dialog.exec()
+        if dialog.exec() == QDialog.Accepted:
+            self.max_attempts = dialog.selected_difficulty
+            self.reset_game()
 
     #Główna część "Mastermind"
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gra mastermind")
         self.setFixedSize(560,800)#do poprawy
+
+        #ilosc prób
+        self.max_attempts = self.wybierz_trudnosc_na_start()
+        self.current_attempt = 0
 
         # Losowanie tajnego kodu
         self.secret_code = [Kolor().get_liczba() for _ in range(4)]
@@ -127,6 +155,12 @@ class MyApp(QWidget):
         self.menu_button.move(470, 10)
         self.menu_button.clicked.connect(self.show_options_dialog)
 
+        #licznik prób
+        self.attempts_label = QLabel(f"Pozostało prób: {self.max_attempts}", self)
+        self.attempts_label.move(20, 10)
+        self.attempts_label.setStyleSheet("font-size: 16px;")
+        self.attempts_label.adjustSize()
+
         # Label z wynikiem
         self.result_label = QLabel("", self)
         self.result_label.setGeometry(20, 250, 500, 30)
@@ -145,6 +179,21 @@ class MyApp(QWidget):
         # Inicjalizacja historii
         self.history_entries = []
 
+    #resetowanie gry
+    def reset_game(self):
+        from random import randint
+        self.secret_code = [randint(1, 6) for _ in range(4)]
+        print(f"(DEBUG) Sekret: {self.secret_code}")
+        self.current_attempt = 0
+        self.result_label.setText("")
+        self.submit_button.setEnabled(True)
+        self.attempts_label.setText(f"Pozostało prób: {self.max_attempts}")
+        self.attempts_label.adjustSize()
+
+        for entry in self.history_entries:
+            entry.deleteLater()
+        self.history_entries.clear()
+
     def sprawdz(self):
         propozycja = [box.get_value() for box in self.boxes]
         wynik = sprawdz_kod(propozycja, self.secret_code)
@@ -152,6 +201,12 @@ class MyApp(QWidget):
         # Obliczanie wyniku
         czarna = wynik.count("czarna")
         biała = wynik.count("biała")
+
+        #wypisywanie pozostałych prób
+        self.current_attempt += 1
+        pozostalo = self.max_attempts - self.current_attempt
+        self.attempts_label.setText(f"Pozostało prób: {pozostalo}")
+        self.attempts_label.adjustSize()
 
         # Aktualizacja wyniku bieżącej próby
         wynik_tekst = f"Czarne: {czarna}    Białe: {biała}"
@@ -168,9 +223,8 @@ class MyApp(QWidget):
             self.history_scroll.verticalScrollBar().maximum()
         )
 
-        index = len(self.history_entries) #liczy index z przodu historii
         if czarna == 4:
             self.result_label.setText("😁Wygrałeś😁")
             self.submit_button.setEnabled(False)
-        elif index >= 10:
-            self.result_label.setText("😭Przegrałeś😭")
+        elif self.current_attempt >= self.max_attempts:
+            self.result_label.setText(f"😭Przegrałeś😭 Kod: {self.secret_code}")
