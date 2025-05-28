@@ -30,6 +30,9 @@ class OptionsDialog(QDialog):
         elif msg_box.clickedButton() == poziom_trudny:
             self.max_attempts = 8
             self.ilość_boxów = 5
+        else:
+            self.max_attempts = 10
+            self.ilość_boxów = 4
 
         self.accept()
 
