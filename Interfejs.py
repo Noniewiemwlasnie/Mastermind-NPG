@@ -16,14 +16,16 @@ class OptionsDialog(QDialog):
         poziom2 = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
         poziom3 = msg_box.addButton("Poziom trudny", QMessageBox.AcceptRole)
 
+        n: int = 1
         msg_box.exec()
-
+        #po wyborze poziomu zmienia się liczba okienek z kolorami do zgadnięcia - zmienna n
+        
         if msg_box.clickedButton() == poziom1:
-            print("Grasz na poziomie łatwym.")#tu zamiast print np. zmiana zmiennej czy coś
+            n = 4
         if msg_box.clickedButton() == poziom2:
-            print("Grasz na poziomie średnim.")
+            n = 5
         if msg_box.clickedButton() == poziom3:
-            print("Grasz na poziomie trudnym.")
+            n = 6
 
     def __init__(self):
         super().__init__()
@@ -107,13 +109,13 @@ class MyApp(QWidget):
         self.setWindowTitle("Gra mastermind")
         self.setFixedSize(560,800)#do poprawy
 
-        # Losowanie tajnego kodu
-        self.secret_code = [Kolor().get_liczba() for _ in range(4)]
+        # Losowanie tajnego kodu - tu także dodałem zmienną n
+        self.secret_code = [Kolor().get_liczba() for _ in range(n.shared_value)]
         print(f"(DEBUG) Sekret: {self.secret_code}")  # Dla testów
 
-        # Kolorowe boxy
+        # Kolorowe boxy - tu zamiast liczby dałem zmienną n
         self.boxes = []
-        for i in range(4):
+        for i in range(n.shared_value):
             box = ColorBox(50 + i * 120, 50, self)
             self.boxes.append(box)
 
