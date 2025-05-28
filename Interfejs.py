@@ -4,6 +4,27 @@ from Kolor import Kolor, sprawdz_kod
 
 # Menu
 class OptionsDialog(QDialog):
+
+    # wybór trudności - łatwy, średni, trudny
+    def wybierz_trudnosc(self):
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle("Wybierz poziom trudności gry")
+        msg_box.setText("Proszę wybrać poziom trudności gry:")
+
+        # poziomy
+        poziom1 = msg_box.addButton("Poziom łatwy", QMessageBox.AcceptRole)
+        poziom2 = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
+        poziom3 = msg_box.addButton("Poziom trudny", QMessageBox.AcceptRole)
+
+        msg_box.exec()
+
+        if msg_box.clickedButton() == poziom1:
+            print("Grasz na poziomie łatwym.")#tu zamiast print np. zmiana zmiennej czy coś
+        if msg_box.clickedButton() == poziom2:
+            print("Grasz na poziomie średnim.")
+        if msg_box.clickedButton() == poziom3:
+            print("Grasz na poziomie trudnym.")
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Menu")
@@ -27,28 +48,7 @@ class OptionsDialog(QDialog):
         # Przycisk poziom trudności
         self.poziom_trud_button = QPushButton("Poziom trudności")
         layout.addWidget(self.poziom_trud_button)
-        self.button.clicked.connect(self.wybierz_trudnosc)
-
-        #wybór trudności - łatwy, średni, trudny (pracuję nad tym)
-        def wybierz_trudnosc(self):
-            msg_box = QMessageBox(self)
-            msg_box.setWindowTitle("Wybierz poziom trudności gry")
-            msg_box.setText("Proszę wybrać poziom trudności gry:")
-
-            #poziomy
-            poziom1 = msg_box.addButton("Poziom łatwy", QMessageBox.AcceptRole)
-            poziom2 = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
-            poziom3 = msg_box.addButton("Poziom trudny", QMessageBox.AcceptRole)
-
-            msg_box.exec()
-
-            if msg_box.clickedButton() == poziom1:
-                print("Grasz na poziomie łatwym.")
-            if msg_box.clickedButton() == poziom2:
-                print("Grasz na poziomie średnim.")
-            if msg_box.clickedButton() == poziom3:
-                print("Grasz na poziomie trudnym.")
-
+        self.poziom_trud_button.clicked.connect(self.wybierz_trudnosc)
 
         # Spacer aby przyciski nie rozciągały się na całą wysokość  
         spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
