@@ -28,20 +28,10 @@ class OptionsDialog(QDialog):
 
 # Główne okno
 class MyApp(QWidget):
-    #wybieranie poziomy trudnosci na starcie
-    
-
-    #Do menu
-    def show_options_dialog(self):
-        dialog = OptionsDialog(self)
-        if dialog.exec() == QDialog.Accepted:
-            self.ilość_boxów = dialog.liczba_boxy()
-            self.reset_game()
-
+  
     #Główna część "Mastermind" z dodanym wyborem ilości boxów
     def __init__(self):
         super().__init__()
-        self.ilość_boxów = 4
         self.setWindowTitle("Gra mastermind")
         self.setFixedSize(560,800)#do poprawy
 
@@ -53,20 +43,21 @@ class MyApp(QWidget):
 
 
         #ustawienie wartości default
+        self.ilość_boxów = 4
         self.max_attempts = 10
         self.current_attempt = 0
-
+        '''
         # Losowanie tajnego kodu
         self.ilość_boxów = 5 # zmiana tego dodaje boxy z pełną implementacją
         self.secret_code = [Kolor().get_liczba() for _ in range(self.ilość_boxów)]
         print(f"(DEBUG) Sekret: {self.secret_code}")  # Dla testów
-
+        
         # Kolorowe boxy - tu zamiast liczby dałem zmienną n
         self.boxes = []
         for i in range(self.ilość_boxów):#<- tutaj można zmienić liczbę boxów ale trzeba pamiętać że kod generuje się tylko dla 4
             box = ColorBox(50 + i * 120, 50, self)
             self.boxes.append(box)
-        
+        '''
         # Przycisk zatwierdz
         self.submit_button = QPushButton("Zatwierdz", self)
         self.submit_button.move(240, 180)
@@ -81,7 +72,7 @@ class MyApp(QWidget):
         self.attempts_label = QLabel(f"Pozostało prób: {self.max_attempts}", self)
         self.attempts_label.move(20, 10)
         self.attempts_label.setStyleSheet("font-size: 16px;")
-        self.attempts_label.adjustSize()
+        #self.attempts_label.adjustSize()
 
         # Label z wynikiem
         self.result_label = QLabel("", self)
@@ -101,7 +92,14 @@ class MyApp(QWidget):
         # Inicjalizacja historii
         self.history_entries = []
 
-        # wczytywanie stat
+    #Do menu
+    def show_options_dialog(self):
+        dialog = OptionsDialog(self)
+        if dialog.exec() == QDialog.Accepted:
+            self.ilość_boxów = dialog.liczba_boxy()
+            self.reset_game()
+
+    # wczytywanie stat
     def wczytaj_statystyki(self):
         try:
             with open(self.statystyki_plik, "r") as f:
@@ -116,6 +114,8 @@ class MyApp(QWidget):
     def zapisz_statystyki(self):
         with open(self.statystyki_plik, "w") as f:
             f.write(f"{self.wygrane}\n{self.przegrane}")
+
+
     #resetowanie gry
     def reset_game(self):
         from random import randint
