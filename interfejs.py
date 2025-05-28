@@ -62,11 +62,11 @@ class MyApp(QWidget):
         print(f"(DEBUG) Sekret: {self.secret_code}")  # Dla testów
 
         # Kolorowe boxy - tu zamiast liczby dałem zmienną n
-        self.boxes = []
+        """self.boxes = []
         for i in range(self.ilość_boxów):#<- tutaj można zmienić liczbę boxów ale trzeba pamiętać że kod generuje się tylko dla 4
             box = ColorBox(50 + i * 120, 50, self)
             self.boxes.append(box)
-
+        """
         # Przycisk zatwierdz
         self.submit_button = QPushButton("Zatwierdz", self)
         self.submit_button.move(240, 180)
