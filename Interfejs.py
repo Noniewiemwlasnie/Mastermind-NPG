@@ -160,7 +160,7 @@ class MyApp(QWidget):
 
         # Kolorowe boxy - tu zamiast liczby dałem zmienną n
         self.boxes = []
-        for i in range(4):
+        for i in range(4):#<- tutaj można zmienić liczbę boxów ale trzeba pamiętać że kod generuje się tylko dla 4
             box = ColorBox(50 + i * 120, 50, self)
             self.boxes.append(box)
 
