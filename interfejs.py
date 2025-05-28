@@ -4,6 +4,28 @@ from losowanie_kolorów import Kolor, sprawdz_kod
 from menu import OptionsDialog
 from boxy_kolorowe import ColorBox
 
+#dodana opcja wyboru trudności połączona z ilością boxów
+class OptionsDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Opcje")
+
+        layout = QVBoxLayout(self)
+
+        self.difficulty_spinbox = QSpinBox()
+        self.difficulty_spinbox.setRange(4, 6)
+        self.difficulty_spinbox.setValue(4)
+        layout.addWidget(QLabel("Ilość pól do zgadnięcia: "))
+        layout.addWidget(self.difficulty_spinbox)
+
+        ok_button = QPushButton("OK")
+        ok_button.clicked.connect(self.accept)
+        layout.addWidget(ok_button)
+
+    def liczba_boxy(self):
+        return self.difficulty_spinbox.value()
+
+
 # Główne okno
 class MyApp(QWidget):
     #Do menu
@@ -88,6 +110,7 @@ class MyApp(QWidget):
         with open(self.statystyki_plik, "w") as f:
             f.write(f"{self.wygrane}\n{self.przegrane}")
 
+    #resetowanie gry
     def reset_game(self):
         # Najpierw usuwamy stare boxy jeśli istnieją
         for box in getattr(self, 'boxes', []):
