@@ -12,20 +12,20 @@ class OptionsDialog(QDialog):
         msg_box.setText("Proszę wybrać poziom trudności gry:")
 
         # poziomy
-        poziom1 = msg_box.addButton("Poziom łatwy", QMessageBox.AcceptRole)
-        poziom2 = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
-        poziom3 = msg_box.addButton("Poziom trudny", QMessageBox.AcceptRole)
+        poziom_łatwy = msg_box.addButton("Poziom łatwy", QMessageBox.AcceptRole)
+        poziom_trudny = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
+        poziom_trudny = msg_box.addButton("Poziom trudny", QMessageBox.AcceptRole)
 
-        n: int = 1
         msg_box.exec()
         #po wyborze poziomu zmienia się liczba okienek z kolorami do zgadnięcia - zmienna n
         
-        if msg_box.clickedButton() == poziom1:
-            self.selected_difficulty = 12
-        elif msg_box.clickedButton() == poziom2:
-            self.selected_difficulty = 10
-        elif msg_box.clickedButton() == poziom3:
-            self.selected_difficulty = 8
+        if msg_box.clickedButton() == poziom_łatwy:
+            self.max_attempts = 12
+        elif msg_box.clickedButton() == poziom_trudny:
+            self.max_attempts = 10
+        elif msg_box.clickedButton() == poziom_trudny:
+            self.max_attempts = 8
+
         self.accept()
 
     def __init__(self, parent=None):
@@ -109,6 +109,7 @@ class ColorBox(QLineEdit):
 # Główne okno
 class MyApp(QWidget):
     #wybieranie poziomy trudnosci na starcie
+    '''
     def wybierz_trudnosc_na_start(self):
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle("Wybierz poziom trudności")
@@ -128,12 +129,12 @@ class MyApp(QWidget):
             return 8
         else:
             return 10
-
+    '''
     #Do menu
     def show_options_dialog(self):
         dialog = OptionsDialog(self)
         if dialog.exec() == QDialog.Accepted:
-            self.max_attempts = dialog.selected_difficulty
+            #self.max_attempts = dialog.selected_difficulty
             self.reset_game()
 
     #Główna część "Mastermind"
@@ -148,8 +149,9 @@ class MyApp(QWidget):
         self.przegrane = 0
         self.wczytaj_statystyki()
 
-        #ilosc prób
-        self.max_attempts = self.wybierz_trudnosc_na_start()
+
+        #ustawienie wartości default
+        self.max_attempts = 10
         self.current_attempt = 0
 
         # Losowanie tajnego kodu
@@ -158,7 +160,7 @@ class MyApp(QWidget):
 
         # Kolorowe boxy - tu zamiast liczby dałem zmienną n
         self.boxes = []
-        for i in range(n.shared_value):
+        for i in range(4):
             box = ColorBox(50 + i * 120, 50, self)
             self.boxes.append(box)
 
