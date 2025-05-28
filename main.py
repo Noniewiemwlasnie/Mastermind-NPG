@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QApplication
 import sys
-from Interfejs import MyApp
+from interfejs import MyApp
 
 # Uruchomienie
 if __name__ == "__main__":
