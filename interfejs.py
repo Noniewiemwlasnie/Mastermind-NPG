@@ -1,67 +1,33 @@
 from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget
 from PySide6.QtGui import Qt
-from kolor import Kolor, sprawdz_kod
+from losowanie_kolorów import Kolor, sprawdz_kod
 from menu import OptionsDialog
 from boxy_kolorowe import ColorBox
 
 # Główne okno
 class MyApp(QWidget):
-    #wybieranie poziomy trudnosci na starcie
-    '''
-    def wybierz_trudnosc_na_start(self):
-        msg_box = QMessageBox(self)
-        msg_box.setWindowTitle("Wybierz poziom trudności")
-        msg_box.setText("Proszę wybrać poziom trudności gry:")
-
-        poziom1 = msg_box.addButton("Łatwy (12 prób)", QMessageBox.AcceptRole)
-        poziom2 = msg_box.addButton("Średni (10 prób)", QMessageBox.AcceptRole)
-        poziom3 = msg_box.addButton("Trudny (8 prób)", QMessageBox.AcceptRole)
-
-        msg_box.exec()
-
-        if msg_box.clickedButton() == poziom1:
-            return 12
-        elif msg_box.clickedButton() == poziom2:
-            return 10
-        elif msg_box.clickedButton() == poziom3:
-            return 8
-        else:
-            return 10
-    '''
     #Do menu
     def show_options_dialog(self):
-        dialog = OptionsDialog(self)
+        dialog = OptionsDialog()
         if dialog.exec() == QDialog.Accepted:
-            #self.max_attempts = dialog.selected_difficulty
             self.reset_game()
 
     #Główna część "Mastermind"
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gra mastermind")
-        self.setFixedSize(560,800)#do poprawy
+        self.setGeometry(100, 100, 560, 800)
+
+        #max_attempts, ilość_boxów = OptionsDialog.zwróc_wartości(self)
+        self.ilość_boxów = 3
+        self.max_attempts = 10
+        self.current_attempt = 0
 
         #staty
         self.statystyki_plik = "statystyki.txt"
         self.wygrane = 0
         self.przegrane = 0
         self.wczytaj_statystyki()
-
-
-        #ustawienie wartości default
-        self.max_attempts = 10
-        self.current_attempt = 0
-
-        # Losowanie tajnego kodu
-        ilość_boxów = 5 # zmiana tego dodaje boxy z pełną implementacją
-        self.secret_code = [Kolor().get_liczba() for _ in range(ilość_boxów)]
-        print(f"(DEBUG) Sekret: {self.secret_code}")  # Dla testów
-
-        # Kolorowe boxy - tu zamiast liczby dałem zmienną n
-        self.boxes = []
-        for i in range(ilość_boxów):#<- tutaj można zmienić liczbę boxów ale trzeba pamiętać że kod generuje się tylko dla 4
-            box = ColorBox(50 + i * 120, 50, self)
-            self.boxes.append(box)
 
         # Przycisk zatwierdz
         self.submit_button = QPushButton("Zatwierdz", self)
@@ -97,6 +63,8 @@ class MyApp(QWidget):
         # Inicjalizacja historii
         self.history_entries = []
 
+        self.reset_game()
+
         # wczytywanie stat
     def wczytaj_statystyki(self):
         try:
@@ -112,28 +80,30 @@ class MyApp(QWidget):
     def zapisz_statystyki(self):
         with open(self.statystyki_plik, "w") as f:
             f.write(f"{self.wygrane}\n{self.przegrane}")
-    #resetowanie gry
-    def reset_game(self):
-        from random import randint
-        self.secret_code = [randint(1, 6) for _ in range(4)]
-        print(f"(DEBUG) Sekret: {self.secret_code}")
-        self.current_attempt = 0
-        self.result_label.setText("")
-        self.submit_button.setEnabled(True)
-        self.attempts_label.setText(f"Pozostało prób: {self.max_attempts}")
-        self.attempts_label.adjustSize()
 
+    def reset_game(self):
+        # Losowanie tajnego kodu
+        self.secret_code = [Kolor().get_liczba() for _ in range(self.ilość_boxów)]
+        print(f"(DEBUG) Sekret: {self.secret_code}")  # Dla testów
+
+        # Kolorowe boxy
+        self.boxes = []
+        for i in range(self.ilość_boxów):
+            box = ColorBox(50 + i * 120, 50, self)
+            self.boxes.append(box)
+
+        #Usuwanie historii
         for entry in self.history_entries:
             entry.deleteLater()
         self.history_entries.clear()
 
-    def sprawdz(self,ilość_boxów):
+    def sprawdz(self):
         propozycja = [box.get_value() for box in self.boxes]
-        wynik = sprawdz_kod(propozycja, self.secret_code, ilość_boxów)
+        wynik = sprawdz_kod(propozycja, self.secret_code, self.ilość_boxów)
 
         # Obliczanie wyniku
-        czarna = wynik.count("czarna")
-        biała = wynik.count("biała")
+        czarna = wynik.count('czarna')
+        biała = wynik.count('biała')
 
         #wypisywanie pozostałych prób
         self.current_attempt += 1
@@ -156,7 +126,7 @@ class MyApp(QWidget):
             self.history_scroll.verticalScrollBar().maximum()
         )
 
-        if czarna == 4:
+        if czarna == self.ilość_boxów:
             self.result_label.setText("😁Wygrałeś😁")
             self.submit_button.setEnabled(False)
             self.wygrane+=1
