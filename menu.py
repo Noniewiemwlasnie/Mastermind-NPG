@@ -39,7 +39,7 @@ class OptionsDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.max_attempts = 10
-        self.ilość_boxów = 3
+        self.ilość_boxów = 4
         self.setWindowTitle("Menu")
         self.setFixedSize(200, 150)
 

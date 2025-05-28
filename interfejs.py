@@ -1,11 +1,12 @@
-from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget, QSpinBox
 from PySide6.QtGui import Qt
 from losowanie_kolorów import Kolor, sprawdz_kod
 from menu import OptionsDialog
 from boxy_kolorowe import ColorBox
 
 #dodana opcja wyboru trudności połączona z ilością boxów
-class OptionsDialog(QDialog):
+'''
+class OptionsDialog(QDialog): #zmień nazwę tej klasy bo wywala kod
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Opcje")
@@ -24,7 +25,7 @@ class OptionsDialog(QDialog):
 
     def liczba_boxy(self):
         return self.difficulty_spinbox.value()
-
+'''
 
 # Główne okno
 class MyApp(QWidget):
@@ -32,7 +33,7 @@ class MyApp(QWidget):
     def show_options_dialog(self):
         dialog = OptionsDialog()
         if dialog.exec() == QDialog.Accepted:
-            # Aktualizujemy wartości
+            # Inicjalizuj z domyślnymi wartościami
             self.ilość_boxów = dialog.ilość_boxów
             self.max_attempts = dialog.max_attempts
             self.reset_game()
