@@ -26,8 +26,8 @@ class OptionsDialog(QDialog):
             self.selected_difficulty = 8
         self.accept()
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.setWindowTitle("Menu")
         self.setFixedSize(200, 150)
 
@@ -44,6 +44,7 @@ class OptionsDialog(QDialog):
 
         # Przycisk statystyki
         self.statystyki_button = QPushButton("Statystyki")
+        self.statystyki_button.clicked.connect(self.pokaz_statystyki)
         layout.addWidget(self.statystyki_button)
 
         # Przycisk poziom trudności
@@ -57,6 +58,14 @@ class OptionsDialog(QDialog):
 
         self.setLayout(layout)
 
+    #pokazuje staty
+    def pokaz_statystyki(self):
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Statystyki gry")
+        msg.setText(
+            f"Wygrane: {self.parent().wygrane}\nPrzegrane: {self.parent().przegrane}"
+        )
+        msg.exec()
 # Box kolorowy
 class ColorBox(QLineEdit):
     COLORS = {
@@ -120,7 +129,7 @@ class MyApp(QWidget):
 
     #Do menu
     def show_options_dialog(self):
-        dialog = OptionsDialog()
+        dialog = OptionsDialog(self)
         if dialog.exec() == QDialog.Accepted:
             self.max_attempts = dialog.selected_difficulty
             self.reset_game()
@@ -130,6 +139,12 @@ class MyApp(QWidget):
         super().__init__()
         self.setWindowTitle("Gra mastermind")
         self.setFixedSize(560,800)#do poprawy
+
+        #staty
+        self.statystyki_plik = "statystyki.txt"
+        self.wygrane = 0
+        self.przegrane = 0
+        self.wczytaj_statystyki()
 
         #ilosc prób
         self.max_attempts = self.wybierz_trudnosc_na_start()
@@ -179,6 +194,21 @@ class MyApp(QWidget):
         # Inicjalizacja historii
         self.history_entries = []
 
+        # wczytywanie stat
+    def wczytaj_statystyki(self):
+        try:
+            with open(self.statystyki_plik, "r") as f:
+                linie = f.readlines()
+                self.wygrane = int(linie[0].strip())
+                self.przegrane = int(linie[1].strip())
+        except (FileNotFoundError, IndexError, ValueError):
+            self.wygrane = 0
+            self.przegrane = 0
+
+    # zapis stat
+    def zapisz_statystyki(self):
+        with open(self.statystyki_plik, "w") as f:
+            f.write(f"{self.wygrane}\n{self.przegrane}")
     #resetowanie gry
     def reset_game(self):
         from random import randint
@@ -226,5 +256,9 @@ class MyApp(QWidget):
         if czarna == 4:
             self.result_label.setText("😁Wygrałeś😁")
             self.submit_button.setEnabled(False)
+            self.wygrane+=1
+            self.zapisz_statystyki()
         elif self.current_attempt >= self.max_attempts:
             self.result_label.setText(f"😭Przegrałeś😭 Kod: {self.secret_code}")
+            self.przegrane+=1
+            self.zapisz_statystyki()
