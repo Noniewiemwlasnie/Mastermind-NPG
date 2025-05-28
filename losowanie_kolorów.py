@@ -33,9 +33,13 @@ def sprawdz_kod(propozycja, tajny_kod, ilość_boxów):
 
     # 2. Szukamy trafień złą pozycją ("biała")
     for i in range(ilość_boxów):
-        if propozycja_tmp[i] is not None and propozycja_tmp[i] in tajny_kod_tmp:
-            idx = tajny_kod_tmp.index(propozycja_tmp[i])
-            wynik[i] = 'biała'
-            tajny_kod_tmp[idx] = None
+        if propozycja_tmp[i] is not None:
+            try:
+                idx = tajny_kod_tmp.index(propozycja_tmp[i])
+                wynik[i] = 'biała'
+                tajny_kod_tmp[idx] = None  # Oznaczamy jako już użyte
+            except ValueError:
+                pass  # Nie znaleziono w tajnym kodzie
 
-    return wynik #[None,None,biała,czarna]
+    print(wynik)
+    return wynik

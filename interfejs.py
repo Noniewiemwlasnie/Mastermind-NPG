@@ -1,9 +1,9 @@
-from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget, QSpinBox
+from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget
 from PySide6.QtGui import Qt
-from kolor import Kolor, sprawdz_kod
+from losowanie_kolorów import Kolor, sprawdz_kod
 from menu import OptionsDialog
 from boxy_kolorowe import ColorBox
-
+    
 #dodana opcja wyboru trudności połączona z ilością boxów
 class OptionsDialog(QDialog):
     def __init__(self, parent=None):
@@ -30,10 +30,29 @@ class OptionsDialog(QDialog):
 class MyApp(QWidget):
   
     #Główna część "Mastermind" z dodanym wyborem ilości boxów
+    #Do menu
+    def show_options_dialog(self):
+        dialog = OptionsDialog()
+        if dialog.exec() == QDialog.Accepted:
+            # Aktualizujemy wartości
+            self.ilość_boxów = dialog.ilość_boxów
+            self.max_attempts = dialog.max_attempts
+            self.reset_game()
+
+    #Główna część "Mastermind"
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gra mastermind")
-        self.setFixedSize(560,800)#do poprawy
+        self.setGeometry(100, 100, 560, 800)
+
+        # Inicjalizujemy puste listy
+        self.boxes = []
+        self.history_entries = []
+
+        # Pobieramy domyślne ustawienia trudności
+        dialog = OptionsDialog()
+        self.ilość_boxów = dialog.ilość_boxów
+        self.max_attempts = dialog.max_attempts
 
         #staty
         self.statystyki_plik = "statystyki.txt"
@@ -100,6 +119,9 @@ class MyApp(QWidget):
             self.reset_game()
 
     # wczytywanie stat
+        self.reset_game()
+
+        # wczytywanie stat
     def wczytaj_statystyki(self):
         try:
             with open(self.statystyki_plik, "r") as f:
@@ -118,40 +140,50 @@ class MyApp(QWidget):
 
     #resetowanie gry
     def reset_game(self):
-        from random import randint
-        self.secret_code = [randint(1, 6) for _ in range(self.ilość_boxów)]
-        print(f"(DEBUG) Sekret: {self.secret_code}")
-        self.current_attempt = 0
-        self.result_label.setText("")
-        self.submit_button.setEnabled(True)
-        self.attempts_label.setText(f"Pozostało prób: {self.max_attempts}")
-        self.attempts_label.adjustSize()
-
-        for box in self.boxes:
+        # Najpierw usuwamy stare boxy jeśli istnieją
+        for box in getattr(self, 'boxes', []):
             box.deleteLater()
-        self.boxes.clear()
 
+        # Losowanie tajnego kodu
+        self.secret_code = [Kolor().get_liczba() for _ in range(self.ilość_boxów)]
+        print(f"(DEBUG) Sekret: {self.secret_code}")
+
+        # Tworzymy nowe boxy
+        self.boxes = []
         for i in range(self.ilość_boxów):
             box = ColorBox(50 + i * 120, 50, self)
+            box.show()  # Upewniamy się, że boxy są widoczne
             self.boxes.append(box)
 
-
+        # Usuwanie historii
         for entry in self.history_entries:
             entry.deleteLater()
         self.history_entries.clear()
+
+        # Resetowanie prób
+        self.pozostalo = self.max_attempts
+        self.current_attempt = 0
+        self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
+        self.attempts_label.adjustSize()
+
+        # Resetowanie wyniku
+        self.result_label.setText("")
+
+        # Aktywujemy przycisk zatwierdzania
+        self.submit_button.setEnabled(True)
 
     def sprawdz(self):
         propozycja = [box.get_value() for box in self.boxes]
         wynik = sprawdz_kod(propozycja, self.secret_code, self.ilość_boxów)
 
         # Obliczanie wyniku
-        czarna = wynik.count("czarna")
-        biała = wynik.count("biała")
+        czarna = wynik.count('czarna')
+        biała = wynik.count('biała')
 
         #wypisywanie pozostałych prób
         self.current_attempt += 1
-        pozostalo = self.max_attempts - self.current_attempt
-        self.attempts_label.setText(f"Pozostało prób: {pozostalo}")
+        self.pozostalo = self.max_attempts - self.current_attempt
+        self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
         self.attempts_label.adjustSize()
 
         # Aktualizacja wyniku bieżącej próby

@@ -15,7 +15,7 @@ class OptionsDialog(QDialog):
 
         # poziomy
         poziom_łatwy = msg_box.addButton("Poziom łatwy", QMessageBox.AcceptRole)
-        poziom_trudny = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
+        poziom_średni = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
         poziom_trudny = msg_box.addButton("Poziom trudny", QMessageBox.AcceptRole)
 
         msg_box.exec()
@@ -23,15 +23,23 @@ class OptionsDialog(QDialog):
 
         if msg_box.clickedButton() == poziom_łatwy:
             self.max_attempts = 12
-        elif msg_box.clickedButton() == poziom_trudny:
+            self.ilość_boxów = 3
+        elif msg_box.clickedButton() == poziom_średni:
             self.max_attempts = 10
+            self.ilość_boxów = 4
         elif msg_box.clickedButton() == poziom_trudny:
             self.max_attempts = 8
+            self.ilość_boxów = 5
+        else:
+            self.max_attempts = 10
+            self.ilość_boxów = 4
 
         self.accept()
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.max_attempts = 10
+        self.ilość_boxów = 3
         self.setWindowTitle("Menu")
         self.setFixedSize(200, 150)
 
