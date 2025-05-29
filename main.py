@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from PySide6.QtWidgets import QApplication
 import sys
 from interfejs import MyApp
