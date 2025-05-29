@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from PySide6.QtWidgets import QSizePolicy, QSpacerItem, QLabel, QDialog, QPushButton, QLineEdit, QScrollArea, QVBoxLayout, QWidget, QMessageBox
+from PySide6.QtWidgets import QSizePolicy, QSpacerItem, QLabel, QDialog, QPushButton, QSpinBox, QVBoxLayout,  QMessageBox
 from PySide6.QtGui import Qt
+
 
 
 # Menu
 class OptionsDialog(QDialog):
-
     # wybór trudności - łatwy, średni, trudny
     def wybierz_trudnosc(self):
         msg_box = QMessageBox(self)
@@ -23,25 +23,19 @@ class OptionsDialog(QDialog):
 
         if msg_box.clickedButton() == poziom_łatwy:
             self.max_attempts = 12
-            self.ilość_boxów = 3
         elif msg_box.clickedButton() == poziom_średni:
             self.max_attempts = 10
-            self.ilość_boxów = 4
         elif msg_box.clickedButton() == poziom_trudny:
             self.max_attempts = 8
-            self.ilość_boxów = 5
         else:
             self.max_attempts = 10
-            self.ilość_boxów = 4
 
         self.accept()
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.max_attempts = 10
-        self.ilość_boxów = 4
         self.setWindowTitle("Menu")
-        self.setFixedSize(200, 150)
+        self.setFixedSize(200, 250)
 
         layout = QVBoxLayout()
         layout.setContentsMargins(10, 10, 10, 10)  # Marginesy
@@ -50,9 +44,9 @@ class OptionsDialog(QDialog):
         label = QLabel("Wybierz opcję:")
         layout.addWidget(label, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
-        # Przycisk opcje
-        self.opcje_button = QPushButton("Ustawienia")
-        layout.addWidget(self.opcje_button)
+        # Przycisk ustawienia
+        self.ustawienia_button = QPushButton("Ustawienia")
+        layout.addWidget(self.ustawienia_button)
 
         # Przycisk statystyki
         self.statystyki_button = QPushButton("Statystyki")
@@ -64,11 +58,32 @@ class OptionsDialog(QDialog):
         layout.addWidget(self.poziom_trud_button)
         self.poziom_trud_button.clicked.connect(self.wybierz_trudnosc)
 
+
+
         # Spacer aby przyciski nie rozciągały się na całą wysokość
         spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         layout.addItem(spacer)
 
         self.setLayout(layout)
+
+        #ustawienie domyśl wart. prób
+        self.max_attempts = 10
+
+        #ustawienie ilości pól do zgadnięcia
+        self.difficulty_spinbox = QSpinBox()
+        self.difficulty_spinbox.setRange(4, 6)
+        layout.addWidget(QLabel("Ilość pól do zgadnięcia: "))
+        layout.addWidget(self.difficulty_spinbox)
+
+        ok_button = QPushButton("OK")
+        ok_button.clicked.connect(self.accept)
+        layout.addWidget(ok_button)
+
+        self.ilość_boxów = self.difficulty_spinbox.value()
+        self.difficulty_spinbox.valueChanged.connect(self.update_ilosc_boxow)
+
+    def update_ilosc_boxow(self, value):
+        self.ilość_boxów = value
 
     # pokazuje staty
     def pokaz_statystyki(self):

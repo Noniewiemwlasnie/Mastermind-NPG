@@ -1,31 +1,12 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 from PySide6.QtWidgets import QLabel, QDialog, QPushButton, QScrollArea, QVBoxLayout, QWidget
 from PySide6.QtGui import Qt
+
 from losowanie_kolorów import Kolor, sprawdz_kod
 from menu import OptionsDialog
 from boxy_kolorowe import ColorBox
 
-#dodana opcja wyboru trudności połączona z ilością boxów
-'''
-class OptionsDialog(QDialog): #zmień nazwę tej klasy bo wywala kod
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle("Opcje")
-
-        layout = QVBoxLayout(self)
-
-        self.difficulty_spinbox = QSpinBox()
-        self.difficulty_spinbox.setRange(4, 6)
-        self.difficulty_spinbox.setValue(4)
-        layout.addWidget(QLabel("Ilość pól do zgadnięcia: "))
-        layout.addWidget(self.difficulty_spinbox)
-
-        ok_button = QPushButton("OK")
-        ok_button.clicked.connect(self.accept)
-        layout.addWidget(ok_button)
-
-    def liczba_boxy(self):
-        return self.difficulty_spinbox.value()
-'''
 
 # Główne okno
 class MyApp(QWidget):
@@ -34,8 +15,8 @@ class MyApp(QWidget):
         dialog = OptionsDialog()
         if dialog.exec() == QDialog.Accepted:
             # Aktualizujemy wartości
-            self.ilość_boxów = dialog.ilość_boxów
             self.max_attempts = dialog.max_attempts
+            self.ilość_boxów = dialog.ilość_boxów
             self.reset_game()
 
     #Główna część "Mastermind" - zwiększyłem okno, bo na poziomie trudnym brakowało miejsca
@@ -185,5 +166,6 @@ class MyApp(QWidget):
             self.zapisz_statystyki()
         elif self.current_attempt >= self.max_attempts:
             self.result_label.setText(f"😭Przegrałeś😭 Kod: {self.secret_code}")
+            self.submit_button.setEnabled(False)
             self.przegrane+=1
             self.zapisz_statystyki()
