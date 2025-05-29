@@ -60,9 +60,9 @@ class MyApp(QWidget):
         self.wczytaj_statystyki()
 
         # Przycisk zatwierdz
-        self.submit_button = QPushButton("Zatwierdz", self)
+        self.submit_button = QPushButton("Zatwierdź", self)
         self.submit_button.setFixedSize(180, 60)
-        wspolrzedna_x = (self.width() - self.submit_button.width()) // 1.5
+        wspolrzedna_x = (self.width() - self.submit_button.width()) // 2
         wspolrzedna_y = 200
         self.submit_button.move(wspolrzedna_x, wspolrzedna_y)
         self.submit_button.clicked.connect(self.sprawdz)
@@ -81,7 +81,7 @@ class MyApp(QWidget):
 
         # Label z wynikiem
         self.result_label = QLabel("", self)
-        self.result_label.setGeometry(20, 250, 500, 30)
+        self.result_label.setGeometry(20, 250, 800, 30)
         self.result_label.setAlignment(Qt.AlignCenter)
         self.result_label.setStyleSheet("font-size: 24px;")
 
