@@ -11,13 +11,7 @@ Jest to implementacja klasycznej gry logicznej Mastermind w języku Python, wyko
   - 6 różnych kolorów (Czerwony, Niebieski, Zielony, Żółty, Fioletowy, Pomarańczowy)
   - Klikalne pola zmieniające kolory w cyklu
   - Wizualna reprezentacja z nazwami kolorów i stylizowanym tłem
-
-### `commity.csv`
-- Historia commitów pokazująca:
-  - Datę commita
-  - Liczbę commitów danego dnia
-  - Nazwiska współtwórców (M.Skowron, K.Salamon, J.Siuzdak)
-
+  - 
 ### `interfejs.py`
 - Główny interfejs gry (klasa `MyApp`)
 - Funkcjonalności:
@@ -48,12 +42,18 @@ Jest to implementacja klasycznej gry logicznej Mastermind w języku Python, wyko
   - Konfiguracja ustawień
 
 ### `setup.py`
-- Plik konfiguracyjny określający zależności (PyQt6 i PySide6)
+- Plik konfiguracyjny określający zależności (PySide6)
 
 ### `statystyki.txt`
 - Przechowuje statystyki gry:
-  - Pierwsza linia: Liczba wygranych (7)
-  - Druga linia: Liczba przegranych (24)
+  - Pierwsza linia: Liczba wygranych (7) # do poprawy
+  - Druga linia: Liczba przegranych (24) # do poprawy
+
+### `commity.csv`
+- Historia commitów pokazująca:
+  - Datę commita
+  - Liczbę commitów danego dnia
+  - Nazwiska współtwórców (M.Skowron, K.Salamon, J.Siuzdak, M.Sakłak)
 
 ## Jak grać
 1. Uruchom plik `main.py` aby rozpocząć grę
@@ -61,8 +61,8 @@ Jest to implementacja klasycznej gry logicznej Mastermind w języku Python, wyko
 3. Klikaj na pola aby zmieniać kolory
 4. Naciśnij "Zatwierdź" aby sprawdzić swoją propozycję
 5. Otrzymaj informację zwrotną:
-   - Czarne punkty: Poprawny kolor na dobrej pozycji
-   - Białe punkty: Poprawny kolor na złej pozycji
+   - Czarne punkty: Poprawny kolor na dobrej pozycji #do poprawy
+   - Białe punkty: Poprawny kolor na złej pozycji #do poprawy
 6. Wygraj odgadując wszystkie kolory przed wyczerpaniem prób
 
 ## Funkcje gry
@@ -80,4 +80,4 @@ Jest to implementacja klasycznej gry logicznej Mastermind w języku Python, wyko
 - M.Skowron
 - K.Salamon
 - J.Siuzdak
-- M. Sakłak
+- M.Sakłak
