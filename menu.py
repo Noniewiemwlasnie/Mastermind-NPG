@@ -7,19 +7,18 @@ from PySide6.QtGui import Qt
 
 # Menu
 class OptionsDialog(QDialog):
-    # wybór trudności - łatwy, średni, trudny
+    
     def wybierz_trudnosc(self):
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle("Wybierz poziom trudności gry")
         msg_box.setText("Proszę wybrać poziom trudności gry:")
 
-        # poziomy
-        poziom_łatwy = msg_box.addButton("Poziom łatwy", QMessageBox.AcceptRole)
-        poziom_średni = msg_box.addButton("Poziom średni", QMessageBox.AcceptRole)
-        poziom_trudny = msg_box.addButton("Poziom trudny", QMessageBox.AcceptRole)
+        
+        poziom_łatwy = msg_box.addButton("Poziom łatwy - ilość prób to 12", QMessageBox.AcceptRole)
+        poziom_średni = msg_box.addButton("Poziom średni ilość prób to 10", QMessageBox.AcceptRole)
+        poziom_trudny = msg_box.addButton("Poziom trudny ilość prób to 8", QMessageBox.AcceptRole)
 
         msg_box.exec()
-        # po wyborze poziomu zmienia się liczba okienek z kolorami do zgadnięcia - zmienna n
 
         if msg_box.clickedButton() == poziom_łatwy:
             self.max_attempts = 12
