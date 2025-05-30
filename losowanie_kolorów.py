@@ -26,14 +26,14 @@ def sprawdz_kod(propozycja, tajny_kod, ilość_boxów):
     tajny_kod_tmp = tajny_kod.copy()
     propozycja_tmp = propozycja.copy()
 
-    # 1. Szukamy trafień idealnych ("czarna")
+    # 1. Szukamy trafień idealnych ("w dobrym miejscu")
     for i in range(ilość_boxów):
         if propozycja[i] == tajny_kod[i]:
             wynik[i] = 'czarna'
             tajny_kod_tmp[i] = None
             propozycja_tmp[i] = None
 
-    # 2. Szukamy trafień złą pozycją ("biała")
+    # 2. Szukamy trafień złą pozycją ("w złym miejscu")
     for i in range(ilość_boxów):
         if propozycja_tmp[i] is not None:
             try:

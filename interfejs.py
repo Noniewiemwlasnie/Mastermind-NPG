@@ -145,11 +145,11 @@ class MyApp(QWidget):
         self.attempts_label.adjustSize()
 
         # Aktualizacja wyniku bieżącej próby
-        wynik_tekst = f"Czarne: {czarna}    Białe: {biała}"
+        wynik_tekst = f"W dobrym miejscu: {czarna}    W złym miejscu: {biała}"
         self.result_label.setText(wynik_tekst)
 
         # Dodanie do historii
-        history_label = QLabel(f"{len(self.history_entries) + 1}. Czarne: {czarna} Białe: {biała}")
+        history_label = QLabel(f"{len(self.history_entries) + 1}. W dobrym miejscu: {czarna} W złym miejscu: {biała}")
         history_label.setStyleSheet("font-size: 18px; margin: 5px;")
         self.history_layout.addWidget(history_label)
         self.history_entries.append(history_label)
