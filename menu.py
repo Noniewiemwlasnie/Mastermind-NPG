@@ -11,12 +11,12 @@ class OptionsDialog(QDialog):
     def wybierz_trudnosc(self):
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle("Wybierz poziom trudności gry")
-        msg_box.setText("Proszę wybrać poziom trudności gry:")
+        msg_box.setText("Proszę wybrać ilość prób:")
 
         
-        poziom_łatwy = msg_box.addButton("Poziom łatwy - ilość prób to 12", QMessageBox.AcceptRole)
-        poziom_średni = msg_box.addButton("Poziom średni ilość prób to 10", QMessageBox.AcceptRole)
-        poziom_trudny = msg_box.addButton("Poziom trudny ilość prób to 8", QMessageBox.AcceptRole)
+        poziom_łatwy = msg_box.addButton("12", QMessageBox.AcceptRole)
+        poziom_średni = msg_box.addButton("10", QMessageBox.AcceptRole)
+        poziom_trudny = msg_box.addButton("8", QMessageBox.AcceptRole)
 
         msg_box.exec()
 
