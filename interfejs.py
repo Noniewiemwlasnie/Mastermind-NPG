@@ -23,7 +23,6 @@ class MyApp(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gra mastermind")
-        self.setGeometry(100, 100, 800, 800)
 
         # Inicjalizujemy puste listy
         self.boxes = []
@@ -43,32 +42,20 @@ class MyApp(QWidget):
         # Przycisk zatwierdz
         self.submit_button = QPushButton("Zatwierdź", self)
         self.submit_button.setFixedSize(180, 60)
-        wspolrzedna_x = (self.width() - self.submit_button.width()) // 2
-        wspolrzedna_y = 200
-        self.submit_button.move(wspolrzedna_x, wspolrzedna_y)
-        self.submit_button.clicked.connect(self.sprawdz)
-
-        # Przycisk menu
-        self.menu_button = QPushButton("Menu", self)
-        self.submit_button.setFixedSize(120, 40)
-        self.menu_button.move(self.width() - 140, 20)
-        self.menu_button.clicked.connect(self.show_options_dialog)
 
         #licznik prób
         self.attempts_label = QLabel(f"Pozostało prób: {self.max_attempts}", self)
-        self.attempts_label.move(20, 10)
+        self.attempts_label.move(10, 10)
         self.attempts_label.setStyleSheet("font-size: 16px;")
         self.attempts_label.adjustSize()
 
         # Label z wynikiem
         self.result_label = QLabel("", self)
-        self.result_label.setGeometry(20, 250, 800, 30)
         self.result_label.setAlignment(Qt.AlignCenter)
         self.result_label.setStyleSheet("font-size: 24px;")
 
         # Obszar historii wyników
         self.history_scroll = QScrollArea(self)
-        self.history_scroll.setGeometry(20, 300, 520, 480)
         self.history_scroll.setWidgetResizable(True)
 
         self.history_widget = QWidget()
@@ -77,6 +64,14 @@ class MyApp(QWidget):
 
         # Inicjalizacja historii
         self.history_entries = []
+
+        # Ustawienie wielkości interfejsu dla ilości boxów
+        self.ustawienie_wielkości_interfejsu()
+
+        # Przycisk menu
+        self.menu_button = QPushButton("Menu", self)
+        self.submit_button.setFixedSize(120, 40)
+        self.menu_button.clicked.connect(self.show_options_dialog)
 
         self.reset_game()
 
@@ -95,6 +90,27 @@ class MyApp(QWidget):
     def zapisz_statystyki(self):
         with open(self.statystyki_plik, "w") as f:
             f.write(f"{self.wygrane}\n{self.przegrane}")
+
+    def ustawienie_wielkości_interfejsu(self):
+        if self.ilość_boxów == 3:
+            self.setFixedSize(440, 800)
+            self.history_scroll.setGeometry(20, 300, 400, 480)
+        elif self.ilość_boxów == 4:
+            self.setFixedSize(560, 800)
+            self.history_scroll.setGeometry(20, 300, 520, 480)
+        elif self.ilość_boxów == 5:
+            self.setFixedSize(680, 800)
+            self.history_scroll.setGeometry(20, 300, 640, 480)
+        elif self.ilość_boxów == 6:
+            self.setFixedSize(800, 800)
+            self.history_scroll.setGeometry(20, 300, 760, 480)
+        else:
+            self.setFixedSize(440, 800)
+            self.history_scroll.setGeometry(20, 300, 400, 480)
+
+        # Ustawienie result_label na środku
+        self.result_label.setFixedWidth(self.width() - 40)  # Zostawiamy marginesy po 20px z każdej strony
+        self.result_label.move((self.width() - self.result_label.width()) // 2, 250)
 
     #resetowanie gry
     def reset_game(self):
@@ -130,6 +146,19 @@ class MyApp(QWidget):
         # Aktywujemy przycisk zatwierdzania
         self.submit_button.setEnabled(True)
 
+        # Ustawienie wielkości interfejsu dla ilości boxów
+        self.ustawienie_wielkości_interfejsu()
+
+        # Przesunięcie przycisku menu
+        self.menu_button.move(self.width() - 95, 10)
+
+        # Przesunięcie przycisku zatwierdz
+        wspolrzedna_x = (self.width() - self.submit_button.width()) // 2
+        wspolrzedna_y = 200
+        self.submit_button.move(wspolrzedna_x, wspolrzedna_y)
+        self.submit_button.clicked.connect(self.sprawdz)
+
+
     def sprawdz(self):
         propozycja = [box.get_value() for box in self.boxes]
         wynik = sprawdz_kod(propozycja, self.secret_code, self.ilość_boxów)
@@ -143,10 +172,6 @@ class MyApp(QWidget):
         self.pozostalo = self.max_attempts - self.current_attempt
         self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
         self.attempts_label.adjustSize()
-
-        # Aktualizacja wyniku bieżącej próby
-        wynik_tekst = f"W dobrym miejscu: {czarna}    W złym miejscu: {biała}"
-        self.result_label.setText(wynik_tekst)
 
         # Dodanie do historii
         history_label = QLabel(f"{len(self.history_entries) + 1}. W dobrym miejscu: {czarna} W złym miejscu: {biała}")
@@ -169,3 +194,5 @@ class MyApp(QWidget):
             self.submit_button.setEnabled(False)
             self.przegrane+=1
             self.zapisz_statystyki()
+
+

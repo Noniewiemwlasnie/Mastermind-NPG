@@ -70,7 +70,7 @@ class OptionsDialog(QDialog):
 
         #ustawienie ilości pól do zgadnięcia
         self.difficulty_spinbox = QSpinBox()
-        self.difficulty_spinbox.setRange(4, 6)
+        self.difficulty_spinbox.setRange(3, 6)
         layout.addWidget(QLabel("Ilość pól do zgadnięcia: "))
         layout.addWidget(self.difficulty_spinbox)
 
