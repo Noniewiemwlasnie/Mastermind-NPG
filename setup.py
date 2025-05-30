@@ -6,7 +6,6 @@ from setuptools import setup
 setup(
     name="Need to install",
     install_requires=[
-        "PyQt6",
         "PySide6",
     ],
 )
