@@ -1,0 +1,5 @@
+boxy_kolorowe
+interfejs
+losowanie_kolorów
+main
+menu
