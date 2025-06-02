@@ -4,8 +4,17 @@
 from setuptools import setup
 
 setup(
-    name="Need to install",
+    name='Mastermind-Npg',
+    version='0.1',
+    py_modules=[
+        'main',
+        'menu',
+        'interfejs',
+        'boxy_kolorowe',
+        'losowanie_kolorów',
+    ],
     install_requires=[
-        "PySide6",
+        'PySide6',
+        # inne zależności, jeśli są
     ],
 )
