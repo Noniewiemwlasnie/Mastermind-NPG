@@ -69,7 +69,7 @@ class OptionsDialog(QDialog):
         layout.addWidget(difficulty_spinbox)
         
         # Przyciski OK i Anuluj
-        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel) #type: ignore
         button_box.accepted.connect(dialog.accept)
         button_box.rejected.connect(dialog.reject)
         layout.addWidget(button_box)
@@ -78,7 +78,7 @@ class OptionsDialog(QDialog):
         
         result = dialog.exec()
         
-        if result == QDialog.Accepted:
+        if result == QDialog.Accepted: #type: ignore
             self.max_attempts = attempts_spinbox.value()
             self.ilość_boxów = difficulty_spinbox.value()
             self.accept()  # Dodajemy tę linijkę aby zamknąć główne okno menu
