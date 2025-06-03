@@ -10,17 +10,22 @@ from boxy_kolorowe import ColorBox
 
 # Główne okno
 class MyApp(QWidget):
-    #Do menu
+
     def show_options_dialog(self):
         dialog = OptionsDialog()
         if dialog.exec() == QDialog.Accepted: #type: ignore
+            # Zapisujemy stare wartości do porównania
+            old_max_attempts = self.max_attempts
+            old_ilość_boxów = self.ilość_boxów
+            
             # Aktualizujemy wartości
             self.max_attempts = dialog.max_attempts
             self.ilość_boxów = dialog.ilość_boxów
-            self.reset_game()
+            
+            # Resetujemy grę tylko jeśli trudność się zmieniła
+            if old_max_attempts != self.max_attempts or old_ilość_boxów != self.ilość_boxów:
+                self.reset_game()
 
-
-    #Główna część "Mastermind" - zwiększyłem okno, bo na poziomie trudnym brakowało miejsca
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gra mastermind")
@@ -33,6 +38,7 @@ class MyApp(QWidget):
         dialog = OptionsDialog()
         self.ilość_boxów = dialog.ilość_boxów
         self.max_attempts = dialog.max_attempts
+        self.current_attempt = 0
 
         #staty
         self.statystyki_plik = "statystyki.txt"
@@ -42,7 +48,9 @@ class MyApp(QWidget):
 
         # Przycisk zatwierdz
         self.submit_button = QPushButton("Zatwierdź", self)
-        self.submit_button.setFixedSize(180, 60)
+        self.submit_button.setFixedSize(100, 40)
+        self.submit_button.move(200, 200)
+        self.submit_button.clicked.connect(self.sprawdz)
 
         #licznik prób
         self.attempts_label = QLabel(f"Pozostało prób: {self.max_attempts}", self)
@@ -66,18 +74,15 @@ class MyApp(QWidget):
         # Inicjalizacja historii
         self.history_entries = []
 
-        # Ustawienie wielkości interfejsu dla ilości boxów
-        self.ustawienie_wielkości_interfejsu()
-
         # Przycisk menu
         self.menu_button = QPushButton("Menu", self)
-        self.submit_button.setFixedSize(120, 40)
+        self.menu_button.setFixedSize(80, 25)
         self.menu_button.clicked.connect(self.show_options_dialog)
 
+        self.ustawienie_wielkości_interfejsu()
 
         self.reset_game()
 
-        # wczytywanie stat
     def wczytaj_statystyki(self):
         try:
             with open(self.statystyki_plik, "r") as f:
@@ -88,7 +93,6 @@ class MyApp(QWidget):
             self.wygrane = 0
             self.przegrane = 0
 
-    # zapis stat
     def zapisz_statystyki(self):
         with open(self.statystyki_plik, "w") as f:
             f.write(f"{self.wygrane}\n{self.przegrane}")
@@ -110,13 +114,20 @@ class MyApp(QWidget):
             self.setFixedSize(440, 800)
             self.history_scroll.setGeometry(20, 300, 400, 480)
 
+        # Przesunięcie przycisku menu
+        self.menu_button.move(self.width() - 95, 10)
+
+        # Przesunięcie przycisku zatwierdz
+        wspolrzedna_x = (self.width() - self.submit_button.width()) // 2
+        wspolrzedna_y = 200
+        self.submit_button.move(wspolrzedna_x, wspolrzedna_y)
+
         # Ustawienie result_label na środku
         self.result_label.setFixedWidth(self.width() - 40)  # Zostawiamy marginesy po 20px z każdej strony
         self.result_label.move((self.width() - self.result_label.width()) // 2, 250)
 
-    #resetowanie gry
     def reset_game(self):
-        # Najpierw usuwamy stare boxy jeśli istnieją
+        # Usuwamy stare boxy jeśli istnieją
         for box in getattr(self, 'boxes', []):
             box.deleteLater()
 
@@ -128,7 +139,7 @@ class MyApp(QWidget):
         self.boxes = []
         for i in range(self.ilość_boxów):
             box = ColorBox(50 + i * 120, 50, self)
-            box.show()  # Upewniamy się, że boxy są widoczne
+            box.show()
             self.boxes.append(box)
 
         # Usuwanie historii
@@ -136,26 +147,20 @@ class MyApp(QWidget):
             entry.deleteLater()
         self.history_entries.clear()
 
-        # Ustawienie domyślnej wartości prób
+        # Resetujemy licznik prób
         self.current_attempt = 0
-
+        self.pozostalo = self.max_attempts  # Używamy aktualnej wartości max_attempts
+        self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
+        self.attempts_label.adjustSize()
+        
         # Resetowanie wyniku
         self.result_label.setText("")
 
         # Aktywujemy przycisk zatwierdzania
         self.submit_button.setEnabled(True)
 
-        # Ustawienie wielkości interfejsu dla ilości boxów
+        # Ustawienie wielkości interfejsu
         self.ustawienie_wielkości_interfejsu()
-
-        # Przesunięcie przycisku menu
-        self.menu_button.move(self.width() - 95, 10)
-
-        # Przesunięcie przycisku zatwierdz
-        wspolrzedna_x = (self.width() - self.submit_button.width()) // 2
-        wspolrzedna_y = 200
-        self.submit_button.move(wspolrzedna_x, wspolrzedna_y)
-        self.submit_button.clicked.connect(self.sprawdz)
 
     def tajny_kod_na_emoji(self):
         emoji = {
@@ -173,14 +178,17 @@ class MyApp(QWidget):
         return ''.join(self.kod_emoji)
 
     def sprawdz(self):
+        # Sprawdzamy czy przycisk jest aktywny (żeby uniknąć podwójnego wywołania)
+        if not self.submit_button.isEnabled():
+            return
+
         propozycja = [box.get_value() for box in self.boxes]
         wynik = sprawdz_kod(propozycja, self.secret_code, self.ilość_boxów)
 
-        # Obliczanie wyniku
         czarna = wynik.count('czarna') #type: ignore
         biała = wynik.count('biała') #type: ignore
 
-        # Wypisywanie pozostałych prób #tu jest problem
+        # Aktualizacja prób - tylko current_attempt
         self.current_attempt += 1
         self.pozostalo = self.max_attempts - self.current_attempt
         self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")

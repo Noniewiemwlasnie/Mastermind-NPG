@@ -14,12 +14,22 @@ class ColorBox(QLineEdit):
         6: ("Pomarańczowy", "#CC5500")
     }
 
+
+    EMOJI = {
+        1: "🟥",
+        2: "🟦",
+        3: "🟩",
+        4: "🟨",
+        5: "🟪",
+        6: "🟧"
+    }
+
     def __init__(self, x, y, parent=None):
         super().__init__("", parent)
         self.setFixedSize(100, 100)
         self.move(x, y)
         self.setReadOnly(True)
-        self.setAlignment(Qt.AlignCenter)
+        self.setAlignment(Qt.AlignCenter) #type: ignore
         self.color_index = 1
         self.update_color()
 
@@ -40,3 +50,4 @@ class ColorBox(QLineEdit):
 
     def get_value(self):
         return self.color_index
+

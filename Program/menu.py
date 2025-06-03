@@ -57,18 +57,13 @@ class OptionsDialog(QDialog):
         layout.addWidget(self.poziom_trud_button)
         self.poziom_trud_button.clicked.connect(self.wybierz_trudnosc)
 
-
-
         # Spacer aby przyciski nie rozciągały się na całą wysokość
         spacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         layout.addItem(spacer)
-
         self.setLayout(layout)
 
-        #ustawienie domyśl wart. prób
-        self.max_attempts = 10
-
         #ustawienie ilości pól do zgadnięcia
+        self.max_attempts = 10
         self.difficulty_spinbox = QSpinBox()
         self.difficulty_spinbox.setRange(3, 6)
         layout.addWidget(QLabel("Ilość pól do zgadnięcia: "))
@@ -84,7 +79,6 @@ class OptionsDialog(QDialog):
     def update_ilosc_boxow(self, value):
         self.ilość_boxów = value
 
-    # pokazuje staty
     def pokaz_statystyki(self):
         msg = QMessageBox(self)
         msg.setWindowTitle("Statystyki gry")
