@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73658e74-c055-4182-8525-a3c16fafe899" name="Changes" comment="poprawa struktury">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program/interfejs.py" beforeDir="false" afterPath="$PROJECT_DIR$/Program/interfejs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program/losowanie_kolorów.py" beforeDir="false" afterPath="$PROJECT_DIR$/Program/losowanie_kolorów.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,22 +15,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Mister987"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Mister987&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Noniewiemwlasnie/Mastermind-NPG",
-    "accountId": "f986717a-ded3-4b95-a22c-f3c0de26bffa"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Noniewiemwlasnie/Mastermind-NPG&quot;,
+    &quot;accountId&quot;: &quot;f986717a-ded3-4b95-a22c-f3c0de26bffa&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 1
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2xxBgYt8VH5jH8WqxGcMLuyYNki" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -43,7 +41,7 @@
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Mister987",
     "last_opened_file_path": "C:/Users/micha/PycharmProjects/Mastermind-NPG/Program/main.py",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -94,6 +92,7 @@
       <option name="presentableId" value="Default" />
       <updated>1748869957073</updated>
       <workItem from="1748869958646" duration="1381000" />
+      <workItem from="1748952194307" duration="23000" />
     </task>
     <task id="LOCAL-00001" summary="poprawa struktury">
       <option name="closed" value="true" />
