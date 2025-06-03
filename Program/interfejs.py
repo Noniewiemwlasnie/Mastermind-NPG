@@ -97,6 +97,21 @@ class MyApp(QWidget):
         with open(self.statystyki_plik, "w") as f:
             f.write(f"{self.wygrane}\n{self.przegrane}")
 
+    def tajny_kod_na_emoji(self):
+            emoji = {
+                1: "🟥",
+                2: "🟦",
+                3: "🟩",
+                4: "🟨",
+                5: "🟪",
+                6: "🟧"
+            }
+
+            self.kod_emoji = []
+            for liczba in self.secret_code:
+                self.kod_emoji += emoji[liczba]
+            return ''.join(self.kod_emoji)
+
     def ustawienie_wielkości_interfejsu(self):
         if self.ilość_boxów == 3:
             self.setFixedSize(440, 800)
@@ -133,7 +148,9 @@ class MyApp(QWidget):
 
         # Losowanie tajnego kodu
         self.secret_code = [Kolor().get_liczba() for _ in range(self.ilość_boxów)]
-        print(f"(DEBUG) Sekret: {self.secret_code}")
+        self.secret_code_słownie = [Kolor().get_kolor_slownie() for _ in range(self.ilość_boxów)]
+
+        print(f"(DEBUG) Sekret: {self.secret_code_słownie}")
 
         # Tworzymy nowe boxy
         self.boxes = []
@@ -152,7 +169,7 @@ class MyApp(QWidget):
         self.pozostalo = self.max_attempts  # Używamy aktualnej wartości max_attempts
         self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
         self.attempts_label.adjustSize()
-        
+
         # Resetowanie wyniku
         self.result_label.setText("")
 
@@ -161,21 +178,6 @@ class MyApp(QWidget):
 
         # Ustawienie wielkości interfejsu
         self.ustawienie_wielkości_interfejsu()
-
-    def tajny_kod_na_emoji(self):
-        emoji = {
-            1: "🟥",
-            2: "🟦",
-            3: "🟩",
-            4: "🟨",
-            5: "🟪",
-            6: "🟧"
-        }
-
-        self.kod_emoji = []
-        for liczba in self.secret_code:
-            self.kod_emoji += emoji[liczba]
-        return ''.join(self.kod_emoji)
 
     def sprawdz(self):
         # Sprawdzamy czy przycisk jest aktywny (żeby uniknąć podwójnego wywołania)
