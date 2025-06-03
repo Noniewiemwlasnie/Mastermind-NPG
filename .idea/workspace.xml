@@ -89,7 +89,7 @@
       <option name="presentableId" value="Default" />
       <updated>1748869957073</updated>
       <workItem from="1748869958646" duration="1381000" />
-      <workItem from="1748952194307" duration="2462000" />
+      <workItem from="1748952194307" duration="2557000" />
     </task>
     <task id="LOCAL-00001" summary="poprawa struktury">
       <option name="closed" value="true" />
@@ -131,7 +131,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748954599211</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="ddd">
+      <option name="closed" value="true" />
+      <created>1748954696049</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748954696049</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
