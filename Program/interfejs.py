@@ -19,6 +19,7 @@ class MyApp(QWidget):
             self.ilość_boxów = dialog.ilość_boxów
             self.reset_game()
 
+
     #Główna część "Mastermind" - zwiększyłem okno, bo na poziomie trudnym brakowało miejsca
     def __init__(self):
         super().__init__()
@@ -72,6 +73,7 @@ class MyApp(QWidget):
         self.menu_button = QPushButton("Menu", self)
         self.submit_button.setFixedSize(120, 40)
         self.menu_button.clicked.connect(self.show_options_dialog)
+
 
         self.reset_game()
 
@@ -134,11 +136,8 @@ class MyApp(QWidget):
             entry.deleteLater()
         self.history_entries.clear()
 
-        # Resetowanie prób
-        self.pozostalo = self.max_attempts
+        # Ustawienie domyślnej wartości prób
         self.current_attempt = 0
-        self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
-        self.attempts_label.adjustSize()
 
         # Resetowanie wyniku
         self.result_label.setText("")
@@ -167,7 +166,7 @@ class MyApp(QWidget):
         czarna = wynik.count('czarna')
         biała = wynik.count('biała')
 
-        #wypisywanie pozostałych prób
+        # Wypisywanie pozostałych prób #tu jest problem
         self.current_attempt += 1
         self.pozostalo = self.max_attempts - self.current_attempt
         self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
