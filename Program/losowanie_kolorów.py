@@ -18,6 +18,7 @@ class Kolor:
         }
         return switch.get(self.liczba, "Nieznany kolor")
 
+
     def get_liczba(self):
         return self.liczba
 
