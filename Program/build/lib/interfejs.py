@@ -13,11 +13,12 @@ class MyApp(QWidget):
     #Do menu
     def show_options_dialog(self):
         dialog = OptionsDialog()
-        if dialog.exec() == QDialog.Accepted:
+        if dialog.exec() == QDialog.Accepted: #type: ignore
             # Aktualizujemy wartości
             self.max_attempts = dialog.max_attempts
             self.ilość_boxów = dialog.ilość_boxów
             self.reset_game()
+
 
     #Główna część "Mastermind" - zwiększyłem okno, bo na poziomie trudnym brakowało miejsca
     def __init__(self):
@@ -51,7 +52,7 @@ class MyApp(QWidget):
 
         # Label z wynikiem
         self.result_label = QLabel("", self)
-        self.result_label.setAlignment(Qt.AlignCenter)
+        self.result_label.setAlignment(Qt.AlignCenter) #type: ignore
         self.result_label.setStyleSheet("font-size: 24px;")
 
         # Obszar historii wyników
@@ -72,6 +73,7 @@ class MyApp(QWidget):
         self.menu_button = QPushButton("Menu", self)
         self.submit_button.setFixedSize(120, 40)
         self.menu_button.clicked.connect(self.show_options_dialog)
+
 
         self.reset_game()
 
@@ -134,11 +136,8 @@ class MyApp(QWidget):
             entry.deleteLater()
         self.history_entries.clear()
 
-        # Resetowanie prób
-        self.pozostalo = self.max_attempts
+        # Ustawienie domyślnej wartości prób
         self.current_attempt = 0
-        self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
-        self.attempts_label.adjustSize()
 
         # Resetowanie wyniku
         self.result_label.setText("")
@@ -158,16 +157,30 @@ class MyApp(QWidget):
         self.submit_button.move(wspolrzedna_x, wspolrzedna_y)
         self.submit_button.clicked.connect(self.sprawdz)
 
+    def tajny_kod_na_emoji(self):
+        emoji = {
+            1: "🟥",
+            2: "🟦",
+            3: "🟩",
+            4: "🟨",
+            5: "🟪",
+            6: "🟧"
+        }
+
+        self.kod_emoji = []
+        for liczba in self.secret_code:
+            self.kod_emoji += emoji[liczba]
+        return ''.join(self.kod_emoji)
 
     def sprawdz(self):
         propozycja = [box.get_value() for box in self.boxes]
         wynik = sprawdz_kod(propozycja, self.secret_code, self.ilość_boxów)
 
         # Obliczanie wyniku
-        czarna = wynik.count('czarna')
-        biała = wynik.count('biała')
+        czarna = wynik.count('czarna') #type: ignore
+        biała = wynik.count('biała') #type: ignore
 
-        #wypisywanie pozostałych prób
+        # Wypisywanie pozostałych prób #tu jest problem
         self.current_attempt += 1
         self.pozostalo = self.max_attempts - self.current_attempt
         self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
@@ -190,9 +203,16 @@ class MyApp(QWidget):
             self.wygrane+=1
             self.zapisz_statystyki()
         elif self.current_attempt >= self.max_attempts:
-            self.result_label.setText(f"😭Przegrałeś😭 Kod: {self.secret_code}")
+            self.result_label.setText(f"😭Przegrałeś😭 Kod: {self.tajny_kod_na_emoji()}")
             self.submit_button.setEnabled(False)
             self.przegrane+=1
             self.zapisz_statystyki()
+
+
+
+
+
+
+
 
 
