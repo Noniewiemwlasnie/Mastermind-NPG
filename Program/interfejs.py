@@ -15,7 +15,7 @@ class MyApp(QWidget):
     #Do menu
     def show_options_dialog(self):
         dialog = OptionsDialog()
-        if dialog.exec() == QDialog.Accepted:
+        if dialog.exec() == QDialog.Accepted: #type: ignore
             # Aktualizujemy wartości
             self.max_attempts = dialog.max_attempts
             self.ilość_boxów = dialog.ilość_boxów
@@ -54,7 +54,7 @@ class MyApp(QWidget):
 
         # Label z wynikiem
         self.result_label = QLabel("", self)
-        self.result_label.setAlignment(Qt.AlignCenter)
+        self.result_label.setAlignment(Qt.AlignCenter) #type: ignore
         self.result_label.setStyleSheet("font-size: 24px;")
 
         # Obszar historii wyników
@@ -179,8 +179,8 @@ class MyApp(QWidget):
         wynik = sprawdz_kod(propozycja, self.secret_code, self.ilość_boxów)
 
         # Obliczanie wyniku
-        czarna = wynik.count('czarna')
-        biała = wynik.count('biała')
+        czarna = wynik.count('czarna') #type: ignore
+        biała = wynik.count('biała') #type: ignore
 
         # Wypisywanie pozostałych prób #tu jest problem
         self.current_attempt += 1

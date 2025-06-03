@@ -14,9 +14,9 @@ class OptionsDialog(QDialog):
         msg_box.setText("Proszę wybrać ilość prób:")
 
         
-        poziom_łatwy = msg_box.addButton("12", QMessageBox.AcceptRole)
-        poziom_średni = msg_box.addButton("10", QMessageBox.AcceptRole)
-        poziom_trudny = msg_box.addButton("8", QMessageBox.AcceptRole)
+        poziom_łatwy = msg_box.addButton("12", QMessageBox.AcceptRole) #type: ignore
+        poziom_średni = msg_box.addButton("10", QMessageBox.AcceptRole) #type: ignore
+        poziom_trudny = msg_box.addButton("8", QMessageBox.AcceptRole) #type: ignore
 
         msg_box.exec()
 
@@ -89,6 +89,6 @@ class OptionsDialog(QDialog):
         msg = QMessageBox(self)
         msg.setWindowTitle("Statystyki gry")
         msg.setText(
-            f"Wygrane: {self.parent().wygrane}\nPrzegrane: {self.parent().przegrane}"
+            f"Wygrane: {self.parent().wygrane}\nPrzegrane: {self.parent().przegrane}" #type: ignore
         )
         msg.exec()

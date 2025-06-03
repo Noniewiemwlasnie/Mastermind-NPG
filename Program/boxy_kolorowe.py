@@ -29,7 +29,7 @@ class ColorBox(QLineEdit):
         self.setFixedSize(100, 100)
         self.move(x, y)
         self.setReadOnly(True)
-        self.setAlignment(Qt.AlignCenter)
+        self.setAlignment(Qt.AlignCenter) #type: ignore
         self.color_index = 1
         self.update_color()
 
