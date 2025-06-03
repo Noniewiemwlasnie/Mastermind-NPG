@@ -157,6 +157,20 @@ class MyApp(QWidget):
         self.submit_button.move(wspolrzedna_x, wspolrzedna_y)
         self.submit_button.clicked.connect(self.sprawdz)
 
+    def tajny_kod_na_emoji(self):
+        emoji = {
+            1: "🟥",
+            2: "🟦",
+            3: "🟩",
+            4: "🟨",
+            5: "🟪",
+            6: "🟧"
+        }
+
+        self.kod_emoji = []
+        for liczba in self.secret_code:
+            self.kod_emoji += emoji[liczba]
+        return ''.join(self.kod_emoji)
 
     def sprawdz(self):
         propozycja = [box.get_value() for box in self.boxes]
@@ -189,9 +203,16 @@ class MyApp(QWidget):
             self.wygrane+=1
             self.zapisz_statystyki()
         elif self.current_attempt >= self.max_attempts:
-            self.result_label.setText(f"😭Przegrałeś😭 Kod: {self.secret_code}")
+            self.result_label.setText(f"😭Przegrałeś😭 Kod: {self.tajny_kod_na_emoji()}")
             self.submit_button.setEnabled(False)
             self.przegrane+=1
             self.zapisz_statystyki()
+
+
+
+
+
+
+
 
 

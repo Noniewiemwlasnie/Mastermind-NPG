@@ -14,6 +14,16 @@ class ColorBox(QLineEdit):
         6: ("Pomarańczowy", "#CC5500")
     }
 
+
+    EMOJI = {
+        1: "🟥",
+        2: "🟦",
+        3: "🟩",
+        4: "🟨",
+        5: "🟪",
+        6: "🟧"
+    }
+
     def __init__(self, x, y, parent=None):
         super().__init__("", parent)
         self.setFixedSize(100, 100)
@@ -40,3 +50,4 @@ class ColorBox(QLineEdit):
 
     def get_value(self):
         return self.color_index
+
