@@ -18,7 +18,6 @@ class Kolor:
         }
         return switch.get(self.liczba, "Nieznany kolor")
 
-
     def get_liczba(self):
         return self.liczba
 
@@ -46,3 +45,5 @@ def sprawdz_kod(propozycja, tajny_kod, ilość_boxów):
 
     print(wynik)
     return wynik
+
+
