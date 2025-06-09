@@ -6,7 +6,7 @@ from setuptools import setup
 setup(
     name='Mastermind-Npg',
     version='0.1',
-    py_modules=[
+    py_modules=[ #tu trzeba dodawać pliki jak potrzeba
         'main',
         'menu',
         'interfejs',
