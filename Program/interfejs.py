@@ -150,7 +150,7 @@ class MyApp(QWidget):
 
         # Losowanie tajnego kodu
         self.secret_code = [Kolor().get_liczba() for _ in range(self.ilość_boxów)]
-        print(f"(DEBUG) Sekret: {self.secret_code}")
+        #print(f"(DEBUG) Sekret: {self.secret_code}")
 
         # Tworzymy nowe boxy
         self.boxes = []
