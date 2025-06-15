@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import random
-
+#import random
 #Losowanie kolorów
 class Kolor:
     def __init__(self):
