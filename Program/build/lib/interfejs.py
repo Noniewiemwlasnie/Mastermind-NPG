@@ -14,7 +14,7 @@ from boxy_kolorowe import ColorBox
 class MyApp(QWidget):
 
     def show_options_dialog(self):
-        dialog = OptionsDialog()
+        dialog = OptionsDialog(self)
         if dialog.exec() == QDialog.Accepted: #type: ignore
             # Zapisujemy stare wartości do porównania
             old_max_attempts = self.max_attempts
@@ -150,7 +150,7 @@ class MyApp(QWidget):
 
         # Losowanie tajnego kodu
         self.secret_code = [Kolor().get_liczba() for _ in range(self.ilość_boxów)]
-        print(f"(DEBUG) Sekret: {self.secret_code}")
+        #print(f"(DEBUG) Sekret: {self.secret_code}")
 
         # Tworzymy nowe boxy
         self.boxes = []

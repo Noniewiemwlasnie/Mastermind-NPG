@@ -7,7 +7,7 @@ from losowanie_kolorów import Kolor, sprawdz_kod
 from menu import OptionsDialog
 from boxy_kolorowe import ColorBox
 
-#hello
+#hellowathever
 
 
 # Główne okno
