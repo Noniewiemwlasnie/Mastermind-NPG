@@ -20,10 +20,6 @@ class OptionsDialog(QDialog):
         label = QLabel("Wybierz opcję:")
         layout.addWidget(label, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
-        # Przycisk ustawienia
-        self.ustawienia_button = QPushButton("Ustawienia")
-        layout.addWidget(self.ustawienia_button)
-
         # Przycisk statystyki
         self.statystyki_button = QPushButton("Statystyki")
         self.statystyki_button.clicked.connect(self.pokaz_statystyki)
