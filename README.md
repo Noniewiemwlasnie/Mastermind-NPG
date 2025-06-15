@@ -11,7 +11,7 @@ Jest to implementacja klasycznej gry logicznej Mastermind w języku Python, wyko
   - 6 różnych kolorów (Czerwony, Niebieski, Zielony, Żółty, Fioletowy, Pomarańczowy)
   - Klikalne pola zmieniające kolory w cyklu
   - Wizualna reprezentacja z nazwami kolorów i stylizowanym tłem
-  - 
+    
 ### `interfejs.py`
 - Główny interfejs gry (klasa `MyApp`)
 - Funkcjonalności:
@@ -36,18 +36,17 @@ Jest to implementacja klasycznej gry logicznej Mastermind w języku Python, wyko
 ### `menu.py`
 - Implementuje menu opcji gry (klasa `OptionsDialog`)
 - Funkcjonalności:
-  - Wybór trudności (8, 10 lub 12 prób)
-  - Liczba pól do odgadnięcia (4-6)
+  - Ustawienie customowej trudności 
   - Wyświetlanie statystyk
-  - Konfiguracja ustawień
+  - Tryb hardcore
 
 ### `setup.py`
 - Plik konfiguracyjny określający zależności (PySide6)
 
 ### `statystyki.txt`
 - Przechowuje statystyki gry:
-  - Pierwsza linia: Liczba wygranych (7) # do poprawy
-  - Druga linia: Liczba przegranych (24) # do poprawy
+  - Pierwsza linia: Liczba wygranych (np. 7) 
+  - Druga linia: Liczba przegranych (np. 24)
 
 ### `commity.csv`
 - Historia commitów pokazująca:
@@ -56,13 +55,13 @@ Jest to implementacja klasycznej gry logicznej Mastermind w języku Python, wyko
   - Nazwiska współtwórców (M.Skowron, K.Salamon, J.Siuzdak, M.Sakłak)
 
 ## Jak grać
-1. Uruchom plik `main.py` aby rozpocząć grę
+1. Uruchom plik `start.bat` aby rozpocząć grę
 2. Wybierz poziom trudności i liczbę pól w menu
 3. Klikaj na pola aby zmieniać kolory
 4. Naciśnij "Zatwierdź" aby sprawdzić swoją propozycję
 5. Otrzymaj informację zwrotną:
-   - Czarne punkty: Poprawny kolor na dobrej pozycji #do poprawy
-   - Białe punkty: Poprawny kolor na złej pozycji #do poprawy
+   - "W dobrym miejscu": Poprawny kolor na dobrej pozycji
+   - "W złym miejscu": Poprawny kolor na złej pozycji
 6. Wygraj odgadując wszystkie kolory przed wyczerpaniem prób
 
 ## Funkcje gry
@@ -71,6 +70,7 @@ Jest to implementacja klasycznej gry logicznej Mastermind w języku Python, wyko
 - Statystyki wygranych i przegranych
 - Responsywny interfejs graficzny
 - Kolorowa informacja zwrotna
+- Tryb hardcore
 
 ## Wymagania
 - Python 3.x
