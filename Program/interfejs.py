@@ -14,7 +14,7 @@ from boxy_kolorowe import ColorBox
 class MyApp(QWidget):
 
     def show_options_dialog(self):
-        dialog = OptionsDialog()
+        dialog = OptionsDialog(self)
         if dialog.exec() == QDialog.Accepted: #type: ignore
             # Zapisujemy stare wartości do porównania
             old_max_attempts = self.max_attempts
