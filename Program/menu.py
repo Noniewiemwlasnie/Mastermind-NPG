@@ -20,6 +20,11 @@ class OptionsDialog(QDialog):
         label = QLabel("Wybierz opcję:")
         layout.addWidget(label, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
 
+        # Przycisk trybu hardcore
+        self.hardcore_button = QPushButton("Tryb Hardcore")
+        layout.addWidget(self.hardcore_button)
+        self.hardcore_button.clicked.connect(self.przelacz_tryb_hardcore)
+
         # Przycisk statystyki
         self.statystyki_button = QPushButton("Statystyki")
         self.statystyki_button.clicked.connect(self.pokaz_statystyki)
@@ -39,8 +44,18 @@ class OptionsDialog(QDialog):
         layout.addItem(spacer)
         self.setLayout(layout)
 
-        
+    def przelacz_tryb_hardcore(self):
+        parent = self.parent()
+        if parent:
+            parent.hardcore_mode = not parent.hardcore_mode
 
+            if parent.hardcore_mode:
+                # Wymuszone ustawienia trybu hardcore
+                parent.ilość_boxów = 3
+                parent.max_attempts = 10
+
+            parent.reset_game()
+            self.accept()
 
     def wybierz_trudnosc(self):
         dialog = QDialog(self)

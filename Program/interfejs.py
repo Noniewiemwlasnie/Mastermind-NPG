@@ -42,7 +42,10 @@ class MyApp(QWidget):
         self.max_attempts = dialog.max_attempts
         self.current_attempt = 0
 
-        #staty
+        # Tryb hardcore (domyślnie wyłączony)
+        self.hardcore_mode = False
+
+        # Statystyki
         self.statystyki_plik = "statystyki.txt"
         self.wygrane = 0
         self.przegrane = 0
@@ -54,7 +57,7 @@ class MyApp(QWidget):
         self.submit_button.move(200, 200)
         self.submit_button.clicked.connect(self.sprawdz)
 
-        #licznik prób
+        # Licznik prób
         self.attempts_label = QLabel(f"Pozostało prób: {self.max_attempts}", self)
         self.attempts_label.move(10, 10)
         self.attempts_label.setStyleSheet("font-size: 16px;")
@@ -62,7 +65,7 @@ class MyApp(QWidget):
 
         # Label z wynikiem
         self.result_label = QLabel("", self)
-        self.result_label.setAlignment(Qt.AlignCenter) #type: ignore
+        self.result_label.setAlignment(Qt.AlignCenter)  # type: ignore
         self.result_label.setStyleSheet("font-size: 24px;")
 
         # Obszar historii wyników
@@ -82,6 +85,11 @@ class MyApp(QWidget):
         self.menu_button.clicked.connect(self.show_options_dialog)
 
         self.ustawienie_wielkości_interfejsu()
+
+        # Etykieta trybu hardcore — musi być przed reset_game
+        self.hardcore_label = QLabel("TRYB HARDCORE", self)
+        self.hardcore_label.setStyleSheet("color: red; font-size: 20px; font-weight: bold;")
+        self.hardcore_label.hide()
 
         self.reset_game()
 
@@ -148,9 +156,13 @@ class MyApp(QWidget):
         for box in getattr(self, 'boxes', []):
             box.deleteLater()
 
+        # W trybie hardcore zawsze 3 pola i 10 prób
+        if self.hardcore_mode:
+            self.ilość_boxów = 3
+            self.max_attempts = 10
+
         # Losowanie tajnego kodu
         self.secret_code = [Kolor().get_liczba() for _ in range(self.ilość_boxów)]
-        #print(f"(DEBUG) Sekret: {self.secret_code}")
 
         # Tworzymy nowe boxy
         self.boxes = []
@@ -166,7 +178,7 @@ class MyApp(QWidget):
 
         # Resetujemy licznik prób
         self.current_attempt = 0
-        self.pozostalo = self.max_attempts  # Używamy aktualnej wartości max_attempts
+        self.pozostalo = self.max_attempts
         self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
         self.attempts_label.adjustSize()
 
@@ -176,8 +188,19 @@ class MyApp(QWidget):
         # Aktywujemy przycisk zatwierdzania
         self.submit_button.setEnabled(True)
 
-        # Ustawienie wielkości interfejsu
+        # Ustawienie wielkości interfejsu — NA SAMYM KOŃCU
         self.ustawienie_wielkości_interfejsu()
+
+        # Pozycja i widoczność etykiety TRYB HARDCORE
+        self.hardcore_label.adjustSize()
+        x = self.attempts_label.x() + self.attempts_label.width() + 10
+        y = self.attempts_label.y()
+        self.hardcore_label.move(x, y)
+
+        if self.hardcore_mode:
+            self.hardcore_label.show()
+        else:
+            self.hardcore_label.hide()
 
     def sprawdz(self):
         # Sprawdzamy czy przycisk jest aktywny (żeby uniknąć podwójnego wywołania)
@@ -187,35 +210,42 @@ class MyApp(QWidget):
         propozycja = [box.get_value() for box in self.boxes]
         wynik = sprawdz_kod(propozycja, self.secret_code, self.ilość_boxów)
 
-        czarna = wynik.count('czarna') #type: ignore
-        biała = wynik.count('biała') #type: ignore
+        czarna = wynik.count('czarna')  # type: ignore
+        biała = wynik.count('biała')  # type: ignore
 
-        # Aktualizacja prób - tylko current_attempt
+        # Aktualizacja prób
         self.current_attempt += 1
         self.pozostalo = self.max_attempts - self.current_attempt
         self.attempts_label.setText(f"Pozostało prób: {self.pozostalo}")
         self.attempts_label.adjustSize()
 
-        # Dodanie do historii
-        history_label = QLabel(f"{len(self.history_entries) + 1}. W dobrym miejscu: {czarna}    W złym miejscu: {biała}")
-        history_label.setStyleSheet("font-size: 18px; margin: 5px;")
-        self.history_layout.addWidget(history_label)
-        self.history_entries.append(history_label)
+        self.hardcore_label.adjustSize()
+        x = self.attempts_label.x() + self.attempts_label.width() + 10
+        y = self.attempts_label.y()
+        self.hardcore_label.move(x, y)
 
-        # Przewiń do dołu
-        self.history_scroll.verticalScrollBar().setValue(
-            self.history_scroll.verticalScrollBar().maximum()
-        )
+        # Dodanie do historii — tylko jeśli nie jesteśmy w trybie hardcore
+        if not self.hardcore_mode:
+            history_label = QLabel(
+                f"{len(self.history_entries) + 1}. W dobrym miejscu: {czarna}    W złym miejscu: {biała}")
+            history_label.setStyleSheet("font-size: 18px; margin: 5px;")
+            self.history_layout.addWidget(history_label)
+            self.history_entries.append(history_label)
+
+            # Przewiń do dołu
+            self.history_scroll.verticalScrollBar().setValue(
+                self.history_scroll.verticalScrollBar().maximum()
+            )
 
         if czarna == self.ilość_boxów:
             self.result_label.setText("😁Wygrałeś😁")
             self.submit_button.setEnabled(False)
-            self.wygrane+=1
+            self.wygrane += 1
             self.zapisz_statystyki()
         elif self.current_attempt >= self.max_attempts:
             self.result_label.setText(f"😭Przegrałeś😭 Kod: {self.tajny_kod_na_emoji()}")
             self.submit_button.setEnabled(False)
-            self.przegrane+=1
+            self.przegrane += 1
             self.zapisz_statystyki()
 
 
